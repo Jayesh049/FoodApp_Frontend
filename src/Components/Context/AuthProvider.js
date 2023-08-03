@@ -22,7 +22,7 @@ function AuthProvider({ children }) {
         try {
             console.log("signup will be here");
             let res = await axios.post
-                ("https://nice-pink-swordfish.cyclic.app/api/v1/auth/signup", {
+                ("https://foodappbackend-lk5m.onrender.com/api/v1/auth/signup", {
                     name: name,
                     password: password,
                     confirmPassword: confirm,
@@ -46,7 +46,7 @@ function AuthProvider({ children }) {
         let flag =  true;
         try {
             setLoading(true);
-            const res = await axios.post("https://nice-pink-swordfish.cyclic.app/api/v1/auth/login", {
+            const res = await axios.post("https://foodappbackend-lk5m.onrender.com/api/v1/auth/login", {
                 email: email,
                 password: password
             });

@@ -8,7 +8,7 @@ function AllPlans() {
     const [arr, arrset] = useState([]);
     useEffect(async () => {
         try {
-            const res = await axios.get("https://nice-pink-swordfish.cyclic.app/api/v1/plan");
+            const res = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/plan");
             //res mangwaya aur data ke saath Allplans function
             // console.log(res.data.Allplans);
             arrset(res.data.Allplans);

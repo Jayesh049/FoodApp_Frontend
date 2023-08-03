@@ -29,18 +29,18 @@ function PlanDetail() {
     console.log(rate);
     const handleClick = async () => {
         console.log(123645);
-        const data = await axios.post("https://nice-pink-swordfish.cyclic.app/api/reviews", {
+        const data = await axios.post("https://foodappbackend-lk5m.onrender.com/api/reviews", {
             "review": review,
             "rating": rate,
             "user": user.user._id,
             "plan": id
         })
-        const reviews = await axios.get("https://nice-pink-swordfish.cyclic.app/api/getReview/" + id);
+        const reviews = await axios.get("https://foodappbackend-lk5m.onrender.com/api/getReview/" + id);
         setarr(reviews.data.reviews);
     }
     const handleDelete = async() =>{
         try{
-            let data = await axios.delete("https://nice-pink-swordfish.cyclic.app/", {
+            let data = await axios.delete("https://foodappbackend-lk5m.onrender.com/", {
                 "id": id
             });
             alert(data);

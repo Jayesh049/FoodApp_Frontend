@@ -20,7 +20,7 @@ function PasswordReset() {
         //send  to login Page
         //no done -> email , otp -> null
         try {
-            let res = await axios.patch("https://nice-pink-swordfish.cyclic.app/api/v1/auth/resetPassword",{
+            let res = await axios.patch("https://foodappbackend-lk5m.onrender.com/api/v1/auth/resetPassword",{
                 otp : otpPassEmail,
                 email: resetPasswordEmail,
                 password : password,
