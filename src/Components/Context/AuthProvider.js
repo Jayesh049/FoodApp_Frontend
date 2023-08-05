@@ -51,19 +51,9 @@ function AuthProvider({ children }) {
                 password: password
             });
             console.log(res.status);
-            // if(res.status === 404){
-            //     alert("Password or email may be wrong");
-            //     flag = false;
-            // }else if (res.status === 400){
-            //     alert("user not found kindly login")
-            //     flag = false;
-            // }else if(res.status === 500){
-            //     alert("Internal server error");
-            //     flag = false;
-            // }else{
-                userSet(res.data.user);// }
+            userSet(res.data.user);
             setLoading(false);  
-            // console.log("40",res.data);
+            
             return flag;
         }
         catch (err) {

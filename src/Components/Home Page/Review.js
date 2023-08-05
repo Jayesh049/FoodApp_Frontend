@@ -8,8 +8,9 @@ function Review() {
 
     useEffect(async () => {
         try {
-            const data = await axios.get("https://nice-pink-swordfish.cyclic.app/api/top3reviews");
-            setarr(data.data.reviews);
+            const data = await axios.get("http://localhost:3000/api/v1/review/best3");
+            console.log(data.data.reviews);
+            setarr(data.data.data);
         } catch (err) {
             console.log(err);
         }
@@ -49,5 +50,4 @@ function Review() {
         </div>
     )
 }
-
 export default Review

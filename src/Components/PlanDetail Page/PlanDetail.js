@@ -10,37 +10,54 @@ function PlanDetail() {
     const { id } = useParams();
     const [arr, setarr] = useState();
     const [review, setreview] = useState("");
+    const [ _id , setId] = useState();
     const [rate, setrate] = useState();
     const { user } = useAuth();
+    
     useEffect(async () => {
-        const data = await axios.get(`https://nice-pink-swordfish.cyclic.app/api/plan/${id}`)
-        console.log(data.data.data);
-        delete data.data.data["_id"]
-        delete data.data.data["__v"]
-        setplan(data.data.data)
-        const reviews = await axios.get("https://nice-pink-swordfish.cyclic.app/api/getReview/" + id);
+        const data = await axios.get(`http://localhost:3000/api/v1/plan/${id}`)
+        // console.log("planDetail" ,data);
+        delete data.data.plan["_id"] ;
+        delete data.data.plan["__v"]  ;
+        setplan(data.data.plan)
+        // console.log(data.data.plan);
+        const reviews = await axios.get("http://localhost:3000/api/v1/review/");
+        // console.log("I am getting data from the review from backend" ,reviews.data.reviews[0].user._id);
         setarr(reviews.data.reviews)
-        console.log(arr);
     }, [])
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
-    console.log(rate);
+    // console.log(rate);
     const handleClick = async () => {
         console.log(123645);
-        const data = await axios.post("https://foodappbackend-lk5m.onrender.com/api/reviews", {
-            "review": review,
-            "rating": rate,
-            "user": user.user._id,
-            "plan": id
-        })
-        const reviews = await axios.get("https://foodappbackend-lk5m.onrender.com/api/getReview/" + id);
+                try{
+                    const data = await axios.post("http://localhost:3000/api/v1/review/", {
+                        "review": review,
+                        "rating": rate,
+
+                        "user": user.user._id,
+                        "plan": id
+                }); console.log(data.review);
+            }catch(err){
+        
+                    console.log(err.message);
+                    
+                    alert(err);
+                }
+            
+        
+        
+        
+
+        const reviews = await axios.get("http://localhost:3000/api/v1/review/" );
+        console.log(reviews.data.reviews);
         setarr(reviews.data.reviews);
     }
     const handleDelete = async() =>{
         try{
-            let data = await axios.delete("https://foodappbackend-lk5m.onrender.com/", {
+            let data = await axios.delete("http://localhost:3000/api/v1/plan/", {
                 "id": id
             });
             alert(data);

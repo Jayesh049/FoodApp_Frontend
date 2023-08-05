@@ -9,7 +9,7 @@ function Plans() {
 
     useEffect(async () => {
         try {
-            const data = await axios.get("https://nice-pink-swordfish.cyclic.app/api/gettop3");
+            const data = await axios.get("http://localhost:3000/api/v1/plan/sortByRating");
             arrset(data.data.data);
             console.log(data.data);
         } catch (err) {
