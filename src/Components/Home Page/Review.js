@@ -9,8 +9,8 @@ function Review() {
     useEffect(async () => {
         try {
             const data = await axios.get("http://localhost:3000/api/v1/review/best3");
-            console.log(data.data.reviews);
-            setarr(data.data.data);
+            // console.log("I am getting top 3 reviews" , data.data.reviews);
+            setarr(data.data.reviews);
         } catch (err) {
             console.log(err);
         }
