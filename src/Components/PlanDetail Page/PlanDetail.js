@@ -1,18 +1,19 @@
-import axios from 'axios';
+import  axios  from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import '../Styles/planDetail.css'
 import '../Styles/contact.css'
 import AuthProvider, { useAuth } from '../Context/AuthProvider';
+import { Link } from "react-router-dom";
+
 
 function PlanDetail() {
     const [plan, setplan] = useState({})
     const { id } = useParams();
     const [arr, setarr] = useState();
     const [review, setreview] = useState("");
-    const [ _id , setId] = useState();
     const [rate, setrate] = useState();
-    const { user } = useAuth();
+    const user = useAuth();
     
     useEffect(async () => {
         const data = await axios.get(`http://localhost:3000/api/v1/plan/${id}`)
@@ -20,10 +21,13 @@ function PlanDetail() {
         delete data.data.plan["_id"] ;
         delete data.data.plan["__v"]  ;
         setplan(data.data.plan)
-        // console.log(data.data.plan);
+        console.log(data.data.plan);
+
+
         const reviews = await axios.get("http://localhost:3000/api/v1/review/");
-        // console.log("I am getting data from the review from backend" ,reviews.data.reviews[0].user._id);
+        console.log("I am getting data from the review from backend" ,reviews.data.reviews);
         setarr(reviews.data.reviews)
+
     }, [])
 
     function capitalizeFirstLetter(string) {
@@ -31,25 +35,20 @@ function PlanDetail() {
     }
     // console.log(rate);
     const handleClick = async () => {
+        // editing this post scenario
+        console.log("this is user from  authcontext" ,user.user._id);
         console.log(123645);
-                try{
-                    const data = await axios.post("http://localhost:3000/api/v1/review/", {
-                        "review": review,
-                        "rating": rate,
+        console.log(rate);
 
+                    let data = await axios.post("http://localhost:3000/api/v1/review/", {
+                        "description": review,
+                        "rating": rate,
                         "user": user.user._id,
-                        "plan": id
-                }); console.log(data.review);
-            }catch(err){
-        
-                    console.log(err.message);
-                    
-                    alert(err);
-                }
-            
-        
-        
-        
+                        "plan": id,
+                        // "description":review
+    })
+    alert("this is " ,data);
+    console.log("data is here" , data)
 
         const reviews = await axios.get("http://localhost:3000/api/v1/review/" );
         console.log(reviews.data.reviews);
@@ -57,15 +56,22 @@ function PlanDetail() {
     }
     const handleDelete = async() =>{
         try{
-            let data = await axios.delete("http://localhost:3000/api/v1/plan/", {
-                "id": id
+            let data = await axios.delete("http://localhost:3000/api/v1/review/", {
+                        "description": review,
+                        "rating": rate,
+                        "user": user.user._id,
+                        "plan": id,
+
+            
             });
+            console.log(data);
             alert(data);
         }
         catch(err){
             alert(err);
         }
     }
+
 
     return (
         <div className="pDetailBox">
@@ -85,15 +91,20 @@ function PlanDetail() {
                             ))
                         }
                     </div>
-
                 </div>
             </div>
 
+                    <div className='GoToBooking'>
+                    <li><Link to="/booking">
+                        <button className='btn'>Booking</button> 
+                        </Link></li>
+                                {/* <button className="showMoreBtn btn" onClick={handleBooking}>GO TO Book</button> */}
+                            </div>
             <div className='reviewBox'>
                 <div className="reviewEnrty">
                     <input type="text" value={review} onChange={(e) => setreview(e.target.value)} />
-                    <select name="" id="" className="select" onChange={(e) => { setrate(e.target.value) }}>
-                        <option value="5">5 Exellent</option>
+                    <select name="" id="" className="select" onChange={(e) =>  setrate(e.target.value) }>
+                        <option value="5">5 Excellent</option>
                         <option value="4">4 Very Good</option>
                         <option value="3">3 Good</option>
                         <option value="2">2 Poor</option>
@@ -109,7 +120,7 @@ function PlanDetail() {
                             <div className="pdreviews">
                                 <div className="pdrdetail">
                                     <h3>{ele.user.name}</h3>
-                                    <div className="input"> {ele.review}</div>
+                                    <div className="input"> {ele.description}</div>
                                 </div>
                                 <div className='rate'>
                                     {

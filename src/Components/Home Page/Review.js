@@ -31,7 +31,7 @@ function Review() {
                                     <img alt='' src={ele.user.profileImage} className='img' />
                                 </div>
                                 <div className='rheader'>
-                                    <h3 className="rh3">Shreya Srivastava</h3>
+                                    <h3 className="rh3">{ele.user.name}</h3>
                                 </div>
                                 <div className='rsummary'>
                                     <p className='para'>
@@ -46,6 +46,7 @@ function Review() {
                         )
                     }
                 </div>
+                
             </div>
         </div>
     )

@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import '../Styles/login.css'
 import axios from 'axios';
-import { useHistory } from 'react-router';
+// import { useHistory } from 'react-router';
 export const AuthContext = React.createContext();
 //custom hook that allows components to access context data
 export function useAuth() {
@@ -52,6 +52,7 @@ function AuthProvider({ children }) {
             });
             console.log(res.status);
             userSet(res.data.user);
+            console.log(res.data.user._id);
             setLoading(false);  
             
             return flag;
@@ -75,7 +76,7 @@ function AuthProvider({ children }) {
             setLoading(false);
             return flag;
         }
-        console.log("login will be here");
+        // console.log("login will be here");
     }
     function logout() {
         // localStorage.removeItem("user")

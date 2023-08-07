@@ -13,6 +13,8 @@ import Profile from './Components/Profile Page/Profile';
 import PlanDetail from './Components/PlanDetail Page/PlanDetail';
 import Otp from './Components/Login Page/Otp';
 import PasswordReset from './Components/Login Page/PasswordReset';
+import Booking from './Components/Booking/booking'
+
 function App() {
   return (
     <Router>
@@ -20,6 +22,9 @@ function App() {
       <AuthProvider>
         <NavBar />
         <Switch>
+        <Route path="/booking">
+            <Booking />
+          </Route>
           <Route path="/signup">
             <Signup />
           </Route>
