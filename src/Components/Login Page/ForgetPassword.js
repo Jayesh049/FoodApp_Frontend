@@ -11,7 +11,7 @@ function ForgetPassword() {
         //request -> forgetPassword Route
     const sendEmail = async() => {
         try {
-            let res = await axios.patch("https://foodappbackend-lk5m.onrender.com/api/v1/auth/forgetPassword", { email })
+            let res = await axios.patch("http://localhost:3000/api/v1/auth/forgetPassword", { email })
             if(res.status === 404){
                 alert("user with this email not found");
             }else if(res.status === 500){

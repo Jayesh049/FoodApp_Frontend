@@ -1,27 +1,37 @@
 import  axios  from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router';
 import '../Styles/planDetail.css'
 import '../Styles/contact.css'
-import AuthProvider, { useAuth } from '../Context/AuthProvider';
+import  { useAuth } from '../Context/AuthProvider';
 import { Link } from "react-router-dom";
 
+export const PlanContext = React.createContext();
+//custom hook that allows components to access context data
+export function usePlan() {
+    return useContext(PlanContext)
+}
 
-function PlanDetail() {
+function PlanDetail({children}) {
     const [plan, setplan] = useState({})
     const { id } = useParams();
+    const [loading, setLoading] = useState(false);
     const [arr, setarr] = useState();
     const [review, setreview] = useState("");
     const [rate, setrate] = useState();
     const user = useAuth();
     
+
+
+    
     useEffect(async () => {
+        
         const data = await axios.get(`http://localhost:3000/api/v1/plan/${id}`)
-        // console.log("planDetail" ,data);
+        console.log("planDetail" ,data.data.plan);
         delete data.data.plan["_id"] ;
         delete data.data.plan["__v"]  ;
         setplan(data.data.plan)
-        console.log(data.data.plan);
+        console.log(data.data.plan.name);
 
 
         const reviews = await axios.get("http://localhost:3000/api/v1/review/");
@@ -71,9 +81,21 @@ function PlanDetail() {
             alert(err);
         }
     }
+    const value = {
+        user,
+        plan,
+        id,
+        arr,
+        review,
+        rate,
+        setplan,
+        setarr
 
+    }
 
-    return (
+    return (<>
+    
+    
         <div className="pDetailBox">
             <div className='h1Box'>
                 <h1 className='h1'>PLAN DETAILS</h1>
@@ -86,19 +108,20 @@ function PlanDetail() {
                             Object.keys(plan).map((ele, key) => (
                                 <div className='entryBox' key={key}>
                                     <div className="entryText">{capitalizeFirstLetter(ele)}</div>
-                                    <div className=" input">{capitalizeFirstLetter(plan[ele].toString())}</div>
+                                   
+                                    <div className=" input">{capitalizeFirstLetter(plan[ele]?.toString())}</div>
                                 </div>
                             ))
                         }
                     </div>
                 </div>
             </div>
-
+{/* ab mai yaha par booknow karta hu toh mere paas saare plan ke details aajane chahiye then uss details ko booking ke saath aage forward kar deng auth context ka use karke */}
                     <div className='GoToBooking'>
-                    <li><Link to="/booking">
-                        <button className='btn'>Booking</button> 
+                    <li><Link to="/booking1">
+                        <button className='btn'>Book Now</button> 
                         </Link></li>
-                                {/* <button className="showMoreBtn btn" onClick={handleBooking}>GO TO Book</button> */}
+                                
                             </div>
             <div className='reviewBox'>
                 <div className="reviewEnrty">
@@ -139,6 +162,15 @@ function PlanDetail() {
 
             </div>
         </div>
+
+        <div>
+        < PlanContext.Provider value={value} >
+            {/* if not loading show childrens  */}
+            {!loading && children}
+        </PlanContext.Provider >
+    
+        </div>
+    </>
     )
 }
 
