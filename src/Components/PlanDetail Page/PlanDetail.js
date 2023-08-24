@@ -5,6 +5,7 @@ import '../Styles/planDetail.css'
 import '../Styles/contact.css'
 import  { useAuth } from '../Context/AuthProvider';
 import { Link } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 export const PlanContext = React.createContext();
 //custom hook that allows components to access context data
@@ -12,7 +13,8 @@ export function usePlan() {
     return useContext(PlanContext)
 }
 
-function PlanDetail({children}) {
+function PlanDetail({ children }) {
+    const history = useHistory();
     const [plan, setplan] = useState({})
     const { id } = useParams();
     const [loading, setLoading] = useState(false);
@@ -20,7 +22,7 @@ function PlanDetail({children}) {
     const [review, setreview] = useState("");
     const [rate, setrate] = useState();
     const user = useAuth();
-    
+    const [booking ,setbooking] = useState({}) 
 
 
     
@@ -35,10 +37,12 @@ function PlanDetail({children}) {
 
 
         const reviews = await axios.get("http://localhost:3000/api/v1/review/");
-        console.log("I am getting data from the review from backend" ,reviews.data.reviews);
+        // console.log("I am getting data from the review from backend" ,reviews.data.reviews);
         setarr(reviews.data.reviews)
 
     }, [])
+
+    
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -57,6 +61,9 @@ function PlanDetail({children}) {
                         "plan": id,
                         // "description":review
     })
+
+
+
     alert("this is " ,data);
     console.log("data is here" , data)
 
@@ -81,18 +88,51 @@ function PlanDetail({children}) {
             alert(err);
         }
     }
+
+      
+        const handleClick1 = async () => {
+
+            const reviews = await axios.get("http://localhost:3000/api/v1/review/" );
+            // console.log(reviews.data.reviews[0].createdAt);
+            // console.log(reviews.data.reviews[0].user._id);
+            // console.log(reviews.data.reviews[0].plan._id);
+            // console.log(reviews.data.reviews[0].plan.price);
+            // console.log("the booking user is" , user);
+            const data = await axios.post("http://localhost:3000/api/v1/booking/", {
+                "bookedAt": reviews.data.reviews[0].createdAt,
+                "priceAtThatTime": reviews.data.reviews[0].plan.price,
+                "user": reviews.data.reviews[0].user._id,
+                "plan": reviews.data.reviews[0].plan._id,
+                "status":"pending"
+                // "description":review
+            })
+        
+            setbooking(data);
+        
+            console.log( "postorder" ,data);
+            alert("data",data);
+            const bookings = await axios.get(`http://localhost:3000/api/v1/booking/${id}`);
+            console.log(bookings);
+            setarr(bookings.data);
+            
+            
+        }
+
+        const routeChange = () =>{  
+            history.push('/booking1');
+          }
+      
+
+
+    
     const value = {
-        user,
-        plan,
-        id,
-        arr,
-        review,
-        rate,
-        setplan,
-        setarr
+        user:user,
+        plan:id,
+        review:arr,
+        rate:plan.price,
 
     }
-
+    console.log(value);
     return (<>
     
     
@@ -118,9 +158,15 @@ function PlanDetail({children}) {
             </div>
 {/* ab mai yaha par booknow karta hu toh mere paas saare plan ke details aajane chahiye then uss details ko booking ke saath aage forward kar deng auth context ka use karke */}
                     <div className='GoToBooking'>
-                    <li><Link to="/booking1">
-                        <button className='btn'>Book Now</button> 
-                        </Link></li>
+                    <li>
+                    <button className="btn" onClick={()=>{
+                        handleClick1();
+                        routeChange();
+                    }}>
+                        Submit        
+                    </button> 
+                      
+                        </li>
                                 
                             </div>
             <div className='reviewBox'>
@@ -164,11 +210,11 @@ function PlanDetail({children}) {
         </div>
 
         <div>
-        < PlanContext.Provider value={value} >
-            {/* if not loading show childrens  */}
-            {!loading && children}
+        < PlanContext.Provider value={value}>
+            {children}
+            console.log(children);
         </PlanContext.Provider >
-    
+                
         </div>
     </>
     )

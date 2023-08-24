@@ -13,7 +13,7 @@ const BDS = moment().format('YYYY-MM-DD HH:mm:ss')
 // const endDateStr = moment().format('YYYY-MM-DD HH:mm:ss') 
 function BookingDetail() {
 
-  const [booking ,setbooking] = useState({}) 
+  const [booking ,setbooking] = useState([]) 
   const {id } = useParams();
   const [arr, setarr] = useState();
   const [review, setreview] = useState("");
@@ -25,7 +25,7 @@ function BookingDetail() {
   useEffect(async () => {
         
     const data = await axios.get(`http://localhost:3000/api/v1/booking/${id}`)
-    console.log("bookingDetail" ,data.data.booking);
+    console.log("bookingDetail" ,data);
     delete data.data.booking["_id"] ;
     delete data.data.booking["__v"]  ;
     console.log('this is status' ,data.data.booking.status);
