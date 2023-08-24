@@ -27,22 +27,14 @@ function Booking () {
     const [ iata , setIata] = useState();
 
 // so the step is i will demand the data from plandetail page and then i will send that data for bookinginitiate
+
 // when booking is initiate then payment part should be forwarded
-    // const user =  useContext(AuthContext);
-    // const user = useContext(AuthContext);
-    // const plan = useContext(PlanContext);
-    // const setplan = useContext(PlanContext);
-    // const id = useContext(PlanContext);
-    // const review = useContext(PlanContext);
-    // const rate = useContext(PlanContext);
-
-
 
  
     useEffect(async () => {
         const bookings = await axios.get("http://localhost:3000/api/v1/booking/");
         console.log(bookings.data.slice(-1)[0]);
-        setarr(bookings.data.slice(-1)[0]);
+        setbooking(bookings.data.slice(-1)[0]);
     }, [])
 
     function capitalizeFirstLetter(string) {
@@ -51,7 +43,25 @@ function Booking () {
    
 const handleClick1 = async () => {
 
- 
+    const reviews = await axios.get("http://localhost:3000/api/v1/review/" );
+    // console.log(reviews.data.reviews[0].createdAt);
+    // console.log(reviews.data.reviews[0].user._id);
+    // console.log(reviews.data.reviews[0].plan._id);
+    // console.log(reviews.data.reviews[0].plan.price);
+    // console.log("the booking user is" , user);
+const data = await axios.post("http://localhost:3000/api/v1/booking/", {
+    "bookedAt": reviews.data.reviews[0].createdAt,
+    "priceAtThatTime": reviews.data.reviews[0].plan.price,
+    "user": reviews.data.reviews[0].user._id,
+    "plan": reviews.data.reviews[0].plan._id,
+    "status":"pending"
+    // "description":review
+})
+
+setbooking(data);
+
+console.log( "postorder" ,data);
+alert("data",data);
 const bookings = await axios.get(`http://localhost:3000/api/v1/booking/${id}`);
 console.log(bookings.length);
 setarr(bookings.data);
