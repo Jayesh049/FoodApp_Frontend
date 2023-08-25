@@ -8,11 +8,11 @@ import { AuthContext } from '../Context/AuthProvider';
 import  AuthProvider, { useAuth } from '../Context/AuthProvider';
 import  { usePlan } from '../PlanDetail Page/PlanDetail';
 import { Link } from "react-router-dom";
-import moment from 'moment';
+
 
 import { PlanContext } from '../PlanDetail Page/PlanDetail';
 
-const BDS = moment().format('YYYY-MM-DD HH:mm:ss')
+
 
 function Booking () {
     const [plan, setplan] = useState({})
@@ -30,43 +30,57 @@ function Booking () {
 
 // when booking is initiate then payment part should be forwarded
 
- 
-    useEffect(async () => {
+    useEffect(async() => {
+        const timer = setTimeout(async() => {
+        console.log('This will run after 5 second!')
         const bookings = await axios.get("http://localhost:3000/api/v1/booking/");
         console.log(bookings.data.slice(-1)[0]);
+        delete bookings.data.slice(-1)[0]["_id"];
+        delete bookings.data.slice(-1)[0]["user"];
+        delete bookings.data.slice(-1)[0]["plan"];
+        delete bookings.data.slice(-1)[0]["__v"];
         setbooking(bookings.data.slice(-1)[0]);
-    }, [])
+        
+        }, 5000);
+        return () => clearTimeout(timer);
+    }, []);
+
+    // useEffect(async () => {
+    //     const bookings = await axios.get("http://localhost:3000/api/v1/booking/");
+    //     console.log(bookings.data.slice(-1)[0]);
+    //     setbooking(bookings.data.slice(-1)[0]);
+    // }, [])
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
    
-const handleClick1 = async () => {
+// const handleClick1 = async () => {
 
-    const reviews = await axios.get("http://localhost:3000/api/v1/review/" );
-    // console.log(reviews.data.reviews[0].createdAt);
-    // console.log(reviews.data.reviews[0].user._id);
-    // console.log(reviews.data.reviews[0].plan._id);
-    // console.log(reviews.data.reviews[0].plan.price);
-    // console.log("the booking user is" , user);
-const data = await axios.post("http://localhost:3000/api/v1/booking/", {
-    "bookedAt": reviews.data.reviews[0].createdAt,
-    "priceAtThatTime": reviews.data.reviews[0].plan.price,
-    "user": reviews.data.reviews[0].user._id,
-    "plan": reviews.data.reviews[0].plan._id,
-    "status":"pending"
-    // "description":review
-})
+//     const reviews = await axios.get("http://localhost:3000/api/v1/review/" );
+//     // console.log(reviews.data.reviews[0].createdAt);
+//     // console.log(reviews.data.reviews[0].user._id);
+//     // console.log(reviews.data.reviews[0].plan._id);
+//     // console.log(reviews.data.reviews[0].plan.price);
+//     // console.log("the booking user is" , user);
+// // const data = await axios.post("http://localhost:3000/api/v1/booking/", {
+// //     "bookedAt": reviews.data.reviews[0].createdAt,
+// //     "priceAtThatTime": reviews.data.reviews[0].plan.price,
+// //     "user": reviews.data.reviews[0].user._id,
+// //     "plan": reviews.data.reviews[0].plan._id,
+// //     "status":"pending"
+// //     // "description":review
+// // })
 
-setbooking(data);
+// // setbooking(data);
 
-console.log( "postorder" ,data);
-alert("data",data);
-const bookings = await axios.get(`http://localhost:3000/api/v1/booking/${id}`);
-console.log(bookings.length);
-setarr(bookings.data);
+// // console.log( "postorder" ,data);
+// // alert("data",data);
+// const bookings = await axios.get(`http://localhost:3000/api/v1/booking/${id}`);
+// console.log(bookings);
+// // setarr(bookings.data);
 
-}
+// }
 
 
     return (
@@ -93,7 +107,7 @@ setarr(bookings.data);
             </div>
           
                 <div className='GoToBooking'>
-                <button className="btn">
+                <button className="btn" >
                         PayNow        
                     </button>
                     {/* <li><Link to="/booking">

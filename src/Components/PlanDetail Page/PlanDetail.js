@@ -6,7 +6,10 @@ import '../Styles/contact.css'
 import  { useAuth } from '../Context/AuthProvider';
 import { Link } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 
+
+const BDS = moment().format('YYYY-MM-DD HH:mm:ss')
 export const PlanContext = React.createContext();
 //custom hook that allows components to access context data
 export function usePlan() {
@@ -99,7 +102,7 @@ function PlanDetail({ children }) {
             // console.log(reviews.data.reviews[0].plan.price);
             // console.log("the booking user is" , user);
             const data = await axios.post("http://localhost:3000/api/v1/booking/", {
-                "bookedAt": reviews.data.reviews[0].createdAt,
+                "bookedAt": BDS,
                 "priceAtThatTime": reviews.data.reviews[0].plan.price,
                 "user": reviews.data.reviews[0].user._id,
                 "plan": reviews.data.reviews[0].plan._id,
@@ -111,9 +114,9 @@ function PlanDetail({ children }) {
         
             console.log( "postorder" ,data);
             alert("data",data);
-            const bookings = await axios.get(`http://localhost:3000/api/v1/booking/${id}`);
-            console.log(bookings);
-            setarr(bookings.data);
+            // const bookings = await axios.get(`http://localhost:3000/api/v1/booking/${id}`);
+            // console.log(bookings);
+            // setarr(bookings.data);
             
             
         }
