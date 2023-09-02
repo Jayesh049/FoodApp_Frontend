@@ -13,9 +13,10 @@ import Profile from './Components/Profile Page/Profile';
 import PlanDetail from './Components/PlanDetail Page/PlanDetail';
 import Otp from './Components/Login Page/Otp';
 import PasswordReset from './Components/Login Page/PasswordReset';
-import BookingDetail from './Components/Booking/bookingdetails'
+
 import Booking from './Components/Home Page/Booking';
 import Booking1 from './Components/Home Page/Booking1';
+import PaymentSuccess from './Components/Home Page/PaymentSuccess';
 function App() {
   return (
     <Router>
@@ -23,7 +24,9 @@ function App() {
       <AuthProvider>
         <NavBar />
         <Switch>
-        
+        <Route path="/paymentsuccess">
+            <PaymentSuccess />
+          </Route>
         <Route path="/booking">
             <Booking />
           </Route>
@@ -57,6 +60,7 @@ function App() {
           <Route path="/">
             <Home />
           </Route>
+
         </Switch>
         <Footer />
       </AuthProvider>

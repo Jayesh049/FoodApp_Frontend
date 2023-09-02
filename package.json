@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/react": "^2.8.0",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
@@ -19,6 +20,7 @@
     "axios": "^0.21.4",
     "http-proxy-middleware": "^2.0.6",
     "moment": "^2.29.4",
+    "razorpay": "^2.9.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.5",

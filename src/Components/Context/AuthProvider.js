@@ -46,7 +46,7 @@ function AuthProvider({ children }) {
         let flag =  true;
         try {
             setLoading(true);
-            const res = await axios.post("https://foodappbackend-lk5m.onrender.com/api/v1/auth/login", {
+            const res = await axios.post("http://localhost:3000/api/v1/auth/login", {
                 email: email,
                 password: password
             });

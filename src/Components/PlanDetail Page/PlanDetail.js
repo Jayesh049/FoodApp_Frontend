@@ -9,6 +9,8 @@ import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
 
+
+
 const BDS = moment().format('YYYY-MM-DD HH:mm:ss')
 export const PlanContext = React.createContext();
 //custom hook that allows components to access context data
@@ -17,6 +19,7 @@ export function usePlan() {
 }
 
 function PlanDetail({ children }) {
+    let data1 = [];
     const history = useHistory();
     const [plan, setplan] = useState({})
     const { id } = useParams();
@@ -25,9 +28,10 @@ function PlanDetail({ children }) {
     const [review, setreview] = useState("");
     const [rate, setrate] = useState();
     const user = useAuth();
-    const [booking ,setbooking] = useState({}) 
-
-
+    const [ order , setorder ] = useState({});
+    const [booking ,setbooking] = useState({})   
+    // const [data1, setData1] = useState([]);
+    // let order = "";
     
     useEffect(async () => {
         
@@ -35,6 +39,8 @@ function PlanDetail({ children }) {
         console.log("planDetail" ,data.data.plan);
         delete data.data.plan["_id"] ;
         delete data.data.plan["__v"]  ;
+        delete data.data.plan["reviews"];
+        delete data.data.plan["averageRating"];
         setplan(data.data.plan)
         console.log(data.data.plan.name);
 
@@ -95,28 +101,34 @@ function PlanDetail({ children }) {
       
         const handleClick1 = async () => {
 
-            const reviews = await axios.get("http://localhost:3000/api/v1/review/" );
-            // console.log(reviews.data.reviews[0].createdAt);
+            const plans = await axios.get(`http://localhost:3000/api/v1/plan/${id}` );
+            console.log(plans.data.plan.price);
+            console.log(plans.data.plan._id);
+            console.log(plans.data);
+            
+            
+            
+
+            console.log(user.user._id);
+            console.log(user.user._id);
+            console.log(user.user);
             // console.log(reviews.data.reviews[0].user._id);
             // console.log(reviews.data.reviews[0].plan._id);
             // console.log(reviews.data.reviews[0].plan.price);
             // console.log("the booking user is" , user);
             const data = await axios.post("http://localhost:3000/api/v1/booking/", {
                 "bookedAt": BDS,
-                "priceAtThatTime": reviews.data.reviews[0].plan.price,
-                "user": reviews.data.reviews[0].user._id,
-                "plan": reviews.data.reviews[0].plan._id,
+                "priceAtThatTime": plans.data.plan.price,
+                "user": user.user._id,
+                "plan": plans.data.plan._id,
                 "status":"pending"
-                // "description":review
             })
         
+
             setbooking(data);
-        
             console.log( "postorder" ,data);
-            alert("data",data);
-            // const bookings = await axios.get(`http://localhost:3000/api/v1/booking/${id}`);
-            // console.log(bookings);
-            // setarr(bookings.data);
+            alert("Plan is succesfully booked",data);
+            
             
             
         }
@@ -130,10 +142,9 @@ function PlanDetail({ children }) {
     
     const value = {
         user:user,
-        plan:id,
+        planid:id,
         review:arr,
         rate:plan.price,
-
     }
     console.log(value);
     return (<>
@@ -166,7 +177,7 @@ function PlanDetail({ children }) {
                         handleClick1();
                         routeChange();
                     }}>
-                        Submit        
+                        Book Now        
                     </button> 
                       
                         </li>
