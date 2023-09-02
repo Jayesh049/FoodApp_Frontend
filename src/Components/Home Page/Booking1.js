@@ -5,7 +5,6 @@ import '../Styles/planDetail.css'
 import '../Styles/contact.css'
 import { AuthContext } from '../Context/AuthProvider';
 import { useHistory } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 
 import Razorpay from 'razorpay';
 
@@ -28,7 +27,6 @@ function Booking () {
     const [review, setreview] = useState("");
     const [rate, setrate] = useState();
     const user = useAuth();
-    const prevLocation = useLocation();
     const [ iata , setIata] = useState();
     const history = useHistory();
 // so the step is i will demand the data from plandetail page and then i will send that data for bookinginitiate
