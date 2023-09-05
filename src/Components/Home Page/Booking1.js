@@ -31,7 +31,7 @@ function Booking () {
                 delete bookings.data.slice(-1)[0]["_id"];
                 // delete bookings.data.slice(-1)[0]["user"];
                 delete bookings.data.slice(-1)[0]["__v"];
-                // delete bookings.data.slice(-1)[0]["plan"];
+                delete bookings.data.slice(-1)[0]["status"];
                 setbooking(bookings.data.slice(-1)[0]);
         
         }, 1000);  
