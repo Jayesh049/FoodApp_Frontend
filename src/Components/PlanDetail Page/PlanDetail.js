@@ -4,7 +4,6 @@ import { useParams } from 'react-router';
 import '../Styles/planDetail.css'
 import '../Styles/contact.css'
 import  { useAuth } from '../Context/AuthProvider';
-import { Link } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
@@ -19,7 +18,7 @@ export function usePlan() {
 }
 
 function PlanDetail({ children }) {
-    let data1 = [];
+    
     const history = useHistory();
     const [plan, setplan] = useState({})
     const { id } = useParams();
@@ -28,26 +27,32 @@ function PlanDetail({ children }) {
     const [review, setreview] = useState("");
     const [rate, setrate] = useState();
     const user = useAuth();
-    const [ order , setorder ] = useState({});
     const [booking ,setbooking] = useState({})   
     // const [data1, setData1] = useState([]);
     // let order = "";
     
-    useEffect(async () => {
-        
-        const data = await axios.get(`http://localhost:3000/api/v1/plan/${id}`)
-        console.log("planDetail" ,data.data.plan);
-        delete data.data.plan["_id"] ;
-        delete data.data.plan["__v"]  ;
-        delete data.data.plan["reviews"];
-        delete data.data.plan["averageRating"];
-        setplan(data.data.plan)
-        console.log(data.data.plan.name);
+    useEffect( () => {
+        async function loadingTimer(){
+                setLoading(true);
+                setTimeout(() => {
+                setLoading(false);
+            }, 2000);
+            }
+        async function getPlanData() {
+            const data = await axios.get(`http://localhost:3000/api/v1/plan/${id}`)
+            console.log("planDetail" ,data.data.plan);
+            delete data.data.plan["_id"] ;
+            delete data.data.plan["__v"]  ;
+            delete data.data.plan["reviews"];
+            delete data.data.plan["averageRating"];
+            setplan(data.data.plan)
+            console.log(data.data.plan.name);
 
-
-        const reviews = await axios.get("http://localhost:3000/api/v1/review/");
-        // console.log("I am getting data from the review from backend" ,reviews.data.reviews);
-        setarr(reviews.data.reviews)
+            const reviews = await axios.get("http://localhost:3000/api/v1/review/");
+            setarr(reviews.data.reviews)
+        }
+        loadingTimer();
+        getPlanData();
 
     }, [])
 
@@ -102,16 +107,7 @@ function PlanDetail({ children }) {
         const handleClick1 = async () => {
 
             const plans = await axios.get(`http://localhost:3000/api/v1/plan/${id}` );
-            console.log(plans.data.plan.price);
-            console.log(plans.data.plan._id);
-            console.log(plans.data);
-            
-            
-            
-
-            console.log(user.user._id);
-            console.log(user.user._id);
-            console.log(user.user);
+    
             // console.log(reviews.data.reviews[0].user._id);
             // console.log(reviews.data.reviews[0].plan._id);
             // console.log(reviews.data.reviews[0].plan.price);
@@ -123,14 +119,10 @@ function PlanDetail({ children }) {
                 "plan": plans.data.plan._id,
                 "status":"pending"
             })
-        
-
             setbooking(data);
             console.log( "postorder" ,data);
             alert("Plan is succesfully booked",data);
-            
-            
-            
+             
         }
 
         const routeChange = () =>{  
@@ -146,9 +138,16 @@ function PlanDetail({ children }) {
         review:arr,
         rate:plan.price,
     }
-    console.log(value);
+    
     return (<>
     
+    {loading  ? (
+        <div className="spinner-container">
+        <div className="loading-spinner">
+        </div>
+        </div>
+    ):(<>
+
     
         <div className="pDetailBox">
             <div className='h1Box'>
@@ -169,9 +168,7 @@ function PlanDetail({ children }) {
                         }
                     </div>
                 </div>
-            </div>
-{/* ab mai yaha par booknow karta hu toh mere paas saare plan ke details aajane chahiye then uss details ko booking ke saath aage forward kar deng auth context ka use karke */}
-                    <div className='GoToBooking'>
+                <div className='GoToBooking'>
                     <li>
                     <button className="btn" onClick={()=>{
                         handleClick1();
@@ -183,8 +180,14 @@ function PlanDetail({ children }) {
                         </li>
                                 
                             </div>
+            </div>
+{/* ab mai yaha par booknow karta hu toh mere paas saare plan ke details aajane chahiye then uss details ko booking ke saath aage forward kar deng auth context ka use karke */}
+                    
             <div className='reviewBox'>
+            <h1 className='h1'>Reviews</h1>
+                <div className="line"></div>
                 <div className="reviewEnrty">
+                    
                     <input type="text" value={review} onChange={(e) => setreview(e.target.value)} />
                     <select name="" id="" className="select" onChange={(e) =>  setrate(e.target.value) }>
                         <option value="5">5 Excellent</option>
@@ -230,6 +233,9 @@ function PlanDetail({ children }) {
         </PlanContext.Provider >
                 
         </div>
+        </>
+    )
+    }
     </>
     )
 }

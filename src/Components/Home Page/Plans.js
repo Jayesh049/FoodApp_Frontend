@@ -1,24 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import '../Styles/plan.css';
+import '../Styles/loading.css';
 import Tick from '../Images/check-mark.png'
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+
+
 
 function Plans() {
     const [arr, arrset] = useState([]);
+    
 
-    useEffect(async () => {
-        try {
-            const data = await axios.get("http://localhost:3000/api/v1/plan/sortByRating");
-            arrset(data.data.plans);
-            console.log("This is the plan " ,data.data.plans);
-        } catch (err) {
-            console.log(err);
+    useEffect(() => {
+    
+        async function getBookingDataById(){
+            try {
+                const data = await axios.get("http://localhost:3000/api/v1/plan/sortByRating");
+                arrset(data.data.plans);
+                console.log("This is the plan " ,data.data.plans);
+            } catch (err) {
+                console.log(err);
+            }
         }
+        getBookingDataById();
     }, [])
 
     return (
-        <div className='plansCard'>
+     <>
+        
+            <div className='plansCard'>
             <div className='h1Box'>
                 <h1 className='h1'>START EATING HEALTHY TODAY</h1>
                 <div className="line"></div>
@@ -55,7 +64,10 @@ function Plans() {
             </div>
         
         </div>
-    )
+    
+    </>
+        )
+        
 }
 
 export default Plans

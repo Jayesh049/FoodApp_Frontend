@@ -1,60 +1,44 @@
 import  axios  from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import React, { useEffect, useState } from 'react';
 import '../Styles/planDetail.css'
 import '../Styles/contact.css'
-import { AuthContext } from '../Context/AuthProvider';
+import '../Styles/loading.css'
 import { useHistory } from 'react-router-dom';
-
-import Razorpay from 'razorpay';
-
-import  AuthProvider, { useAuth } from '../Context/AuthProvider';
-import  { usePlan } from '../PlanDetail Page/PlanDetail';
-import { Link } from "react-router-dom";
 import moment from 'moment';
 
-
-import { PlanContext } from '../PlanDetail Page/PlanDetail';
 
 const BDS = moment().format('YYYY-MM-DD HH:mm:ss')
 
 function Booking () {
-    const [plan, setplan] = useState({})
-    const { id } = useParams();
-    
+ 
+ 
+    const[loading , setLoading] = useState(false);
     const [booking ,setbooking] = useState({}) 
-    const [arr, setarr] = useState();
-    const [review, setreview] = useState("");
-    const [rate, setrate] = useState();
-    const user = useAuth();
-    const [ iata , setIata] = useState();
     const history = useHistory();
-// so the step is i will demand the data from plandetail page and then i will send that data for bookinginitiate
 
-// when booking is initiate then payment part should be forwarded
-
-    useEffect(async() => {
-        const timer = setTimeout(async() => {
-        console.log('This will run after 5 second!')
-        const bookings = await axios.get("http://localhost:3000/api/v1/booking/");
-        delete bookings.data.slice(-1)[0]["_id"];
-        // delete bookings.data.slice(-1)[0]["user"];
-        delete bookings.data.slice(-1)[0]["__v"];
-        // delete bookings.data.slice(-1)[0]["plan"];
-        console.log(bookings.data.slice(-1)[0]);
-        console.log(bookings.data.slice(-1)[0].plan);
-        console.log(bookings.data.slice(-1)[0].user);
-        console.log(bookings.data.slice(-1)[0].priceAtThatTime);
-        setbooking(bookings.data.slice(-1)[0]);
-
+  
+  
+    useEffect(() => {
+        async function loadingTimer(){
+            setLoading(true);
+            setTimeout(() => {
+          setLoading(false);
+        }, 2000);
+        }
+        async function getBookingData(){
+            const timer = setTimeout(async() => {
+                const bookings = await axios.get("http://localhost:3000/api/v1/booking/");
+                delete bookings.data.slice(-1)[0]["_id"];
+                // delete bookings.data.slice(-1)[0]["user"];
+                delete bookings.data.slice(-1)[0]["__v"];
+                // delete bookings.data.slice(-1)[0]["plan"];
+                setbooking(bookings.data.slice(-1)[0]);
         
-        // const plans = await axios.get(`http://localhost:3000/api/v1/plan/${plan}` );
-        //     console.log(plans);
-            // console.log(plans.data.plan._id);
-            // console.log(plans.data);
-        
-        }, 1000);
+        }, 1000);  
         return () => clearTimeout(timer);
+        }
+        loadingTimer();
+        getBookingData();
     }, []);
 
 
@@ -74,9 +58,6 @@ function Booking () {
             document.body.appendChild(script);
         });
 }
-
-    
-    
 
         async function displayRazorpay() {
             const res = await loadScript(
@@ -141,14 +122,15 @@ function Booking () {
             history.push('/paymentsuccess');   
         }
         
-        
-        const routeChange = () =>{  
-            
-          }
-
 
    
-    return (
+    return (<>
+        {loading  ? (
+           <div className="spinner-container">
+           <div className="loading-spinner">
+           </div>
+           </div>
+      ) :(
         <div className="reviewImg">
             <div className="reviewCard">
                 <div className='h1Box'>
@@ -167,21 +149,25 @@ function Booking () {
                                 </div>
                             ))
                         }
-                    </div>
+                        </div>
+                        <div className='GoToBooking'>
+                    
                 </div>
-            </div>
-          
-                <div className='GoToBooking'>
+                
+                </div>
                 <button className="btn"  onClick={displayRazorpay}>
                         PayNow        
                     </button>
-                    <li onClick={routeChange} /></div>
+            </div>
+          
+                
                     </div>
                     
                 
             </div>
+      )
+        }
+    </>
+)}
         
-        
-    )
-}
 export default Booking

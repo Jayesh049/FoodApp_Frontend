@@ -14,7 +14,7 @@ import PlanDetail from './Components/PlanDetail Page/PlanDetail';
 import Otp from './Components/Login Page/Otp';
 import PasswordReset from './Components/Login Page/PasswordReset';
 
-import Booking from './Components/Home Page/Booking';
+
 import Booking1 from './Components/Home Page/Booking1';
 import PaymentSuccess from './Components/Home Page/PaymentSuccess';
 function App() {
@@ -27,9 +27,7 @@ function App() {
         <Route path="/paymentsuccess">
             <PaymentSuccess />
           </Route>
-        <Route path="/booking">
-            <Booking />
-          </Route>
+        
           <Route path="/booking1">
             <Booking1 />
           </Route>
