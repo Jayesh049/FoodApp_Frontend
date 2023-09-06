@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext , useEffect} from 'react';
 import '../Styles/login.css'
 import axios from 'axios';
 // import { useHistory } from 'react-router';
@@ -12,11 +12,16 @@ export function useAuth() {
 // 
 function AuthProvider({ children }) {
     // const history = useHistory();
+    
+
+
+    
     const [user, userSet] = useState("");
     const [loading, setLoading] = useState(false);
     //for defining resetPass and sendingOtp 
     const [ resetPasswordEmail  , setResetEmail ] = useState(null);
     const [ otpPassEmail , setOtpPassEmail] = useState(null);
+    
 
     async function signUp(name, password, email, confirm) {
         try {
@@ -42,18 +47,29 @@ function AuthProvider({ children }) {
             setLoading(false);
         }
     }
-    async function login(email, password) {
+    async function login(email, password ,e ) {
         let flag =  true;
+        
+
         try {
             setLoading(true);
+            
             const res = await axios.post("http://localhost:3000/api/v1/auth/login", {
                 email: email,
                 password: password
             });
-            console.log(res.status);
+            
             userSet(res.data.user);
-            console.log(res.data.user._id);
+            console.log(res.data.result);
+            if(res.data.result  === "ok"){
+                window.localStorage.setItem("user" , res.data.user._id);
+                window.localStorage.setItem("loggedIn" ,true);
+
+            }
+
+
             setLoading(false);  
+            // whenever user is successfully logged in the isloggedin variable will be vreated and marked to true 
             
             return flag;
         }
@@ -79,9 +95,10 @@ function AuthProvider({ children }) {
         // console.log("login will be here");
     }
     function logout() {
-        // localStorage.removeItem("user")
-        // userSet(null);
-        // console.log("logout will come here");
+        
+        window.localStorage.removeItem("user")
+        userSet(null);
+        
     }
 
     const value = {

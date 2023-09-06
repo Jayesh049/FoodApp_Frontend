@@ -108,10 +108,7 @@ function PlanDetail({ children }) {
 
             const plans = await axios.get(`http://localhost:3000/api/v1/plan/${id}` );
     
-            // console.log(reviews.data.reviews[0].user._id);
-            // console.log(reviews.data.reviews[0].plan._id);
-            // console.log(reviews.data.reviews[0].plan.price);
-            // console.log("the booking user is" , user);
+            
             const data = await axios.post("http://localhost:3000/api/v1/booking/", {
                 "bookedAt": BDS,
                 "priceAtThatTime": plans.data.plan.price,

@@ -135,11 +135,11 @@ function Home() {
                 </div>
             </div>
         </div>
-         <>
+    
         <Review />
         <Plans />
         <Contact />
-        </>
+    
     </>    
         )}
     
