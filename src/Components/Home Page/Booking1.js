@@ -27,7 +27,7 @@ function Booking () {
         }
         async function getBookingData(){
             const timer = setTimeout(async() => {
-                const bookings = await axios.get("http://localhost:3000/api/v1/booking/");
+                const bookings = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/booking/");
                 delete bookings.data.slice(-1)[0]["_id"];
                 // delete bookings.data.slice(-1)[0]["user"];
                 delete bookings.data.slice(-1)[0]["__v"];
@@ -84,8 +84,8 @@ function Booking () {
                 alert("Server error. Are you online?");
                 return;
             }
-            const { data: { key } } = await axios.get("http://www.localhost:3000/api/getkey")
-        //         console.log(key)
+            const { data: { key } } = await axios.get("https://foodappbackend-lk5m.onrender.com/api/getkey")
+        
     
             // Getting the order details back
             const { amount, id: order_id, currency } = result.data;
@@ -105,7 +105,7 @@ function Booking () {
                         razorpayOrderId: response.razorpay_order_id,
                         razorpaySignature: response.razorpay_signature,
                     };
-                    console.log(data)
+                    
                     const result = await axios.post("http://localhost:3000/api/v1/booking/verification", data);
     
                     alert(result.data.msg);

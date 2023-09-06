@@ -26,7 +26,7 @@ function AuthProvider({ children }) {
 
     async function signUp(name, password, email, confirm) {
         try {
-            console.log("signup will be here");
+            
             let res = await axios.post
                 ("https://foodappbackend-lk5m.onrender.com/api/v1/auth/signup", {
                     name: name,
@@ -34,14 +34,14 @@ function AuthProvider({ children }) {
                     confirmPassword: confirm,
                     email
                 })
-                if(res.status === 400){
-                alert("improper user data entry")
-                }
+                // if(res.status === 400){
+                // alert("improper user data entry")
+                // }
                 setLoading(false);
             // console.log("data", res.data);
 
         } catch (err) {
-            console.log("err", err.message);
+            
             if(err.message === "Request failed with status code 400"){
                 alert("improper user data entry")
             }
@@ -61,7 +61,7 @@ function AuthProvider({ children }) {
             });
             
             userSet(res.data.user);
-            console.log(res.data.result);
+            
             if(res.data.result  === "ok"){
                 window.localStorage.setItem("user" , res.data.user._id);
                 window.localStorage.setItem("loggedIn" ,true);
@@ -80,7 +80,8 @@ function AuthProvider({ children }) {
         }
         catch (err) {
             flag = false;
-            console.log(err);
+            
+
             if (err.message === "Request failed with status code 404") {
                 alert("Password or email may be wrong");
                 flag = false;
@@ -97,7 +98,7 @@ function AuthProvider({ children }) {
             setLoading(false);
             return flag;
         }
-        // console.log("login will be here");
+        
     }
     function logout() {
         

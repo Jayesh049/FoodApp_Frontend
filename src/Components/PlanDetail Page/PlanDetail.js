@@ -40,13 +40,13 @@ function PlanDetail({ children }) {
             }
         async function getPlanData() {
             const data = await axios.get(`https://foodappbackend-lk5m.onrender.com/api/v1/plan/${id}`)
-            console.log("planDetail" ,data.data.plan);
+            
             delete data.data.plan["_id"] ;
             delete data.data.plan["__v"]  ;
             delete data.data.plan["reviews"];
             delete data.data.plan["averageRating"];
             setplan(data.data.plan)
-            console.log(data.data.plan.name);
+            
 
             const reviews = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/review/");
             setarr(reviews.data.reviews)
@@ -61,12 +61,11 @@ function PlanDetail({ children }) {
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
-    // console.log(rate);
+    
     const handleClick = async () => {
         // editing this post scenario
-        console.log("this is user from  authcontext" ,user.user._id);
-        console.log(123645);
-        console.log(rate);
+        
+        
 
                     let data = await axios.post("https://foodappbackend-lk5m.onrender.com/api/v1/review/", {
                         "description": review,
@@ -79,10 +78,9 @@ function PlanDetail({ children }) {
 
 
     alert("this is " ,data);
-    console.log("data is here" , data)
+    
 
         const reviews = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/review/" );
-        console.log(reviews.data.reviews);
         setarr(reviews.data.reviews);
     }
     const handleDelete = async() =>{
@@ -95,7 +93,7 @@ function PlanDetail({ children }) {
 
             
             });
-            console.log(data);
+            
             alert(data);
         }
         catch(err){
@@ -117,7 +115,7 @@ function PlanDetail({ children }) {
                 "status":"pending"
             })
             setbooking(data);
-            console.log( "postorder" ,data);
+            
             alert("Plan is succesfully booked",data);
              
         }
@@ -226,7 +224,7 @@ function PlanDetail({ children }) {
         <div>
         < PlanContext.Provider value={value}>
             {children}
-            console.log(children);
+            
         </PlanContext.Provider >
                 
         </div>
