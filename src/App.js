@@ -59,7 +59,7 @@ function App() {
             <PlanDetail />
           </Route>
           <Route path="/" >
-              {isLoggedIn === "true" ? <Home/> : <Profile />}  
+              {isLoggedIn === "true" ? <Home />  :  <Home/>}  
           </Route>
 
         <Footer />

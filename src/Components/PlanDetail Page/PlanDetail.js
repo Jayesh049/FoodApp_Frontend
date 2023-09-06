@@ -39,7 +39,7 @@ function PlanDetail({ children }) {
             }, 2000);
             }
         async function getPlanData() {
-            const data = await axios.get(`http://localhost:3000/api/v1/plan/${id}`)
+            const data = await axios.get(`https://foodappbackend-lk5m.onrender.com/api/v1/plan/${id}`)
             console.log("planDetail" ,data.data.plan);
             delete data.data.plan["_id"] ;
             delete data.data.plan["__v"]  ;
@@ -48,7 +48,7 @@ function PlanDetail({ children }) {
             setplan(data.data.plan)
             console.log(data.data.plan.name);
 
-            const reviews = await axios.get("http://localhost:3000/api/v1/review/");
+            const reviews = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/review/");
             setarr(reviews.data.reviews)
         }
         loadingTimer();
@@ -68,7 +68,7 @@ function PlanDetail({ children }) {
         console.log(123645);
         console.log(rate);
 
-                    let data = await axios.post("http://localhost:3000/api/v1/review/", {
+                    let data = await axios.post("https://foodappbackend-lk5m.onrender.com/api/v1/review/", {
                         "description": review,
                         "rating": rate,
                         "user": user.user._id,
@@ -81,13 +81,13 @@ function PlanDetail({ children }) {
     alert("this is " ,data);
     console.log("data is here" , data)
 
-        const reviews = await axios.get("http://localhost:3000/api/v1/review/" );
+        const reviews = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/review/" );
         console.log(reviews.data.reviews);
         setarr(reviews.data.reviews);
     }
     const handleDelete = async() =>{
         try{
-            let data = await axios.delete("http://localhost:3000/api/v1/review/", {
+            let data = await axios.delete("https://foodappbackend-lk5m.onrender.com/api/v1/review/", {
                         "description": review,
                         "rating": rate,
                         "user": user.user._id,
@@ -106,10 +106,10 @@ function PlanDetail({ children }) {
       
         const handleClick1 = async () => {
 
-            const plans = await axios.get(`http://localhost:3000/api/v1/plan/${id}` );
+            const plans = await axios.get(`https://foodappbackend-lk5m.onrender.com/api/v1/plan/${id}` );
     
             
-            const data = await axios.post("http://localhost:3000/api/v1/booking/", {
+            const data = await axios.post("https://foodappbackend-lk5m.onrender.com/api/v1/booking/", {
                 "bookedAt": BDS,
                 "priceAtThatTime": plans.data.plan.price,
                 "user": user.user._id,

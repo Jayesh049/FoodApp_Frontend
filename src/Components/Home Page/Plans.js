@@ -14,9 +14,8 @@ function Plans() {
     
         async function getBookingDataById(){
             try {
-                const data = await axios.get("http://localhost:3000/api/v1/plan/sortByRating");
+                const data = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/plan/sortByRating");
                 arrset(data.data.plans);
-                console.log("This is the plan " ,data.data.plans);
             } catch (err) {
                 console.log(err);
             }

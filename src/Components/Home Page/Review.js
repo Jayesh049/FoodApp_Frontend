@@ -8,7 +8,7 @@ function Review() {
 
     useEffect(async () => {
         try {
-            const data = await axios.get("http://localhost:3000/api/v1/review/best3");
+            const data = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/review/best3");
             // console.log("I am getting top 3 reviews" , data.data.reviews);
             setarr(data.data.reviews);
         } catch (err) {

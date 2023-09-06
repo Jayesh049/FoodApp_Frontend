@@ -6,15 +6,16 @@ import { Link } from 'react-router-dom';
 
 function AllPlans() {
     const [arr, arrset] = useState([]);
-    useEffect(async () => {
-        try {
-            const res = await axios.get("http://localhost:3000/api/v1/plan");
-            //res mangwaya aur data ke saath Allplans function
-            // console.log(res.data.Allplans);
-            arrset(res.data.Allplans);
-        } catch (err) {
-            console.log(err);
+    useEffect( () => {
+        async function planList(){
+            try {
+                const res = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/plan");
+                arrset(res.data.Allplans);
+            } catch (err) {
+                console.log(err);
+            }
         }
+        planList();
     }, [])
     return (
         <div className='allplansCard'>

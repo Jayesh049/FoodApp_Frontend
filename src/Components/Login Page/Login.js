@@ -26,6 +26,11 @@ function Login() {
                   } catch(err) {
                     console.log(err);
                   }
+                  if("loggedIn" === true){
+                    sessionStorage.setItem("reloading", "false");
+                    window.location.reload(false); 
+                    }
+        
             }
 
     return (

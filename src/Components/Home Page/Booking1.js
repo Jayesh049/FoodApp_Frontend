@@ -69,10 +69,10 @@ function Booking () {
                 return;
             }
     
-            const bookings = await axios.get("http://localhost:3000/api/v1/booking/");
+            const bookings = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/booking/");
     
             // creating a new order
-            const result = await axios.post("http://localhost:3000/api/v1/booking/", {
+            const result = await axios.post("https://foodappbackend-lk5m.onrender.com/api/v1/booking/", {
                 "bookedAt": BDS,
                 "priceAtThatTime": bookings.data.slice(-1)[0].priceAtThatTime,
                 "user": bookings.data.slice(-1)[0].user,

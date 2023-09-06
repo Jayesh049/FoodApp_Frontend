@@ -1,26 +1,27 @@
-import React, { useState, useContext , useEffect} from 'react';
+import React, { useState, useContext } from 'react';
 import '../Styles/login.css'
 import axios from 'axios';
-// import { useHistory } from 'react-router';
+
 export const AuthContext = React.createContext();
-//custom hook that allows components to access context data
+
 export function useAuth() {
     return useContext(AuthContext)
 }
-// sync -> if you have a user or not on login and logout 
-// It also exposes you lossley coupled auth functions
-// 
+
 function AuthProvider({ children }) {
-    // const history = useHistory();
-    
-
-
     
     const [user, userSet] = useState("");
     const [loading, setLoading] = useState(false);
-    //for defining resetPass and sendingOtp 
     const [ resetPasswordEmail  , setResetEmail ] = useState(null);
     const [ otpPassEmail , setOtpPassEmail] = useState(null);
+    
+    window.onload = () => {
+        let reloading = sessionStorage.getItem("reloading");
+        if (reloading) {
+            sessionStorage.removeItem("reloading");
+            
+        }
+    }
     
 
     async function signUp(name, password, email, confirm) {
@@ -33,9 +34,9 @@ function AuthProvider({ children }) {
                     confirmPassword: confirm,
                     email
                 })
-                // if(res.status === 400){
-                // alert("improper user data entry")
-                // }
+                if(res.status === 400){
+                alert("improper user data entry")
+                }
                 setLoading(false);
             // console.log("data", res.data);
 
@@ -47,14 +48,14 @@ function AuthProvider({ children }) {
             setLoading(false);
         }
     }
-    async function login(email, password ,e ) {
+    async function login(email, password ) {
         let flag =  true;
         
 
         try {
             setLoading(true);
             
-            const res = await axios.post("http://localhost:3000/api/v1/auth/login", {
+            const res = await axios.post("https://foodappbackend-lk5m.onrender.com/api/v1/auth/login", {
                 email: email,
                 password: password
             });
@@ -67,6 +68,10 @@ function AuthProvider({ children }) {
 
             }
 
+            if("loggedIn" === true){
+            sessionStorage.setItem("reloading", "false");
+            window.location.reload(false); 
+            }
 
             setLoading(false);  
             // whenever user is successfully logged in the isloggedin variable will be vreated and marked to true 
@@ -96,7 +101,8 @@ function AuthProvider({ children }) {
     }
     function logout() {
         
-        window.localStorage.removeItem("user")
+        localStorage.clear();
+        window.localStorage.setItem("loggedIn" ,false);
         userSet(null);
         
     }
