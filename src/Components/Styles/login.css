@@ -65,6 +65,9 @@
 .loginBtn:hover{
     transform: scale(1.2);
 }
+
+
+
 .otherOption{
     height: 40px;
     width: 100%;

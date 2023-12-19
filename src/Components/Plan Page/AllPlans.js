@@ -6,16 +6,17 @@ import { Link } from 'react-router-dom';
 
 function AllPlans() {
     const [arr, arrset] = useState([]);
-    useEffect( () => {
-        async function planList(){
-            try {
-                const res = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/plan");
-                arrset(res.data.Allplans);
-            } catch (err) {
-                console.log(err);
-            }
+    const [image , setImage] = useState();
+    useEffect(async () => {
+        try {
+            const res = await axios.get("http://localhost:3000/api/v1/plan/");
+            //res mangwaya aur data ke saath Allplans function
+            // console.log(res.data.Allplans[arr.length -1].image);
+            arrset(res.data.Allplans);
+            setImage(res.data.Allplans[arr.length -1].image);
+        } catch (err) {
+            console.log(err);
         }
-        planList();
     }, [])
     return (
         <div className='allplansCard'>
@@ -27,7 +28,11 @@ function AllPlans() {
                 <div className='planDetails'>
                     {arr && arr?.map((ele, key) =>
                         <div className='apCard' key={key}>
-                            <h3 className='h3'>{ele.name}</h3>
+                            <h1 className='h1'>{ele.name}</h1>
+                            < img src={`http://localhost:3000/`+ ele.image}
+                                height={200}
+                                width={200}
+                            />
                             <div className='pCard1'>
                                 <div className='priceBox'>
                                     <div className='price'>Rs {ele.price}</div>

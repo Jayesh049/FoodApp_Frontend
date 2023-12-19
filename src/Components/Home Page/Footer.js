@@ -1,27 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react'
 import { Link } from 'react-router-dom';
 import '../Styles/footer.css';
 
 function Footer() {
-    const[loading , setLoading] = useState(false);
-
-    useEffect(() => {
-        async function loadingTimer(){
-            setLoading(true);
-            setTimeout(() => {
-          setLoading(false);
-        }, 2000);
-        }
-        loadingTimer();
-    }, []);
-    
-    return (<>
-        {loading  ? (
-            <div className="spinner-container">
-            <div className="loading-spinner">
-            </div>
-            </div>
-       ) :(
+    return (
         <div className='footerImg'>
             <footer>
                 <div className="footer-parent">
@@ -66,8 +48,6 @@ function Footer() {
             </footer>
         </div>
     )
-}
-</>)
 }
 
 export default Footer

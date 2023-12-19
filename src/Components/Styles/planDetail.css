@@ -4,7 +4,7 @@
     background-color: #eef0ef;
 }
 .planDetailBox{
-    height: 600px;
+    height: 550px;
     padding: 30px 20px;
     display: flex;
     flex-direction: column;

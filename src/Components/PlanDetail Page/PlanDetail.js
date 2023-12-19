@@ -1,99 +1,48 @@
-import  axios  from 'axios';
-import React, { useEffect, useState, useContext } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import '../Styles/planDetail.css'
 import '../Styles/contact.css'
-import  { useAuth } from '../Context/AuthProvider';
-import { useHistory } from 'react-router-dom';
-import moment from 'moment';
+import AuthProvider, { useAuth } from '../Context/AuthProvider';
 
-
-
-
-const BDS = moment().format('YYYY-MM-DD HH:mm:ss')
-export const PlanContext = React.createContext();
-//custom hook that allows components to access context data
-export function usePlan() {
-    return useContext(PlanContext)
-}
-
-function PlanDetail({ children }) {
-    
-    const history = useHistory();
+function PlanDetail() {
     const [plan, setplan] = useState({})
     const { id } = useParams();
-    const [loading, setLoading] = useState(false);
     const [arr, setarr] = useState();
     const [review, setreview] = useState("");
     const [rate, setrate] = useState();
-    const user = useAuth();
-    const [booking ,setbooking] = useState({})   
-    // const [data1, setData1] = useState([]);
-    // let order = "";
-    
-    useEffect( () => {
-        async function loadingTimer(){
-                setLoading(true);
-                setTimeout(() => {
-                setLoading(false);
-            }, 2000);
-            }
-        async function getPlanData() {
-            const data = await axios.get(`https://foodappbackend-lk5m.onrender.com/api/v1/plan/${id}`)
-            
-            delete data.data.plan["_id"] ;
-            delete data.data.plan["__v"]  ;
-            delete data.data.plan["reviews"];
-            delete data.data.plan["averageRating"];
-            setplan(data.data.plan)
-            
-
-            const reviews = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/review/");
-            setarr(reviews.data.reviews)
-        }
-        loadingTimer();
-        getPlanData();
-
+    const { user } = useAuth();
+    useEffect(async () => {
+        const data = await axios.get(`https://nice-pink-swordfish.cyclic.app/api/plan/${id}`)
+        console.log(data.data.data);
+        delete data.data.data["_id"]
+        delete data.data.data["__v"]
+        setplan(data.data.data)
+        const reviews = await axios.get("https://nice-pink-swordfish.cyclic.app/api/getReview/" + id);
+        setarr(reviews.data.reviews)
+        console.log(arr);
     }, [])
-
-    
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
-    
+    console.log(rate);
     const handleClick = async () => {
-        // editing this post scenario
-        
-        
-
-                    let data = await axios.post("https://foodappbackend-lk5m.onrender.com/api/v1/review/", {
-                        "description": review,
-                        "rating": rate,
-                        "user": user.user._id,
-                        "plan": id,
-                        // "description":review
-    })
-
-
-
-    alert("this is " ,data);
-    
-
-        const reviews = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/review/" );
+        console.log(123645);
+        const data = await axios.post("https://nice-pink-swordfish.cyclic.app/api/reviews", {
+            "review": review,
+            "rating": rate,
+            "user": user.user._id,
+            "plan": id
+        })
+        const reviews = await axios.get("https://nice-pink-swordfish.cyclic.app/api/getReview/" + id);
         setarr(reviews.data.reviews);
     }
     const handleDelete = async() =>{
         try{
-            let data = await axios.delete("https://foodappbackend-lk5m.onrender.com/api/v1/review/", {
-                        "description": review,
-                        "rating": rate,
-                        "user": user.user._id,
-                        "plan": id,
-
-            
+            let data = await axios.delete("https://nice-pink-swordfish.cyclic.app/", {
+                "id": id
             });
-            
             alert(data);
         }
         catch(err){
@@ -101,49 +50,7 @@ function PlanDetail({ children }) {
         }
     }
 
-      
-        const handleClick1 = async () => {
-
-            const plans = await axios.get(`https://foodappbackend-lk5m.onrender.com/api/v1/plan/${id}` );
-    
-            
-            const data = await axios.post("https://foodappbackend-lk5m.onrender.com/api/v1/booking/", {
-                "bookedAt": BDS,
-                "priceAtThatTime": plans.data.plan.price,
-                "user": user.user._id,
-                "plan": plans.data.plan._id,
-                "status":"pending"
-            })
-            setbooking(data);
-            
-            alert("Plan is succesfully booked",data);
-             
-        }
-
-        const routeChange = () =>{  
-            history.push('/booking1');
-          }
-      
-
-
-    
-    const value = {
-        user:user,
-        planid:id,
-        review:arr,
-        rate:plan.price,
-    }
-    
-    return (<>
-    
-    {loading  ? (
-        <div className="spinner-container">
-        <div className="loading-spinner">
-        </div>
-        </div>
-    ):(<>
-
-    
+    return (
         <div className="pDetailBox">
             <div className='h1Box'>
                 <h1 className='h1'>PLAN DETAILS</h1>
@@ -156,36 +63,20 @@ function PlanDetail({ children }) {
                             Object.keys(plan).map((ele, key) => (
                                 <div className='entryBox' key={key}>
                                     <div className="entryText">{capitalizeFirstLetter(ele)}</div>
-                                   
-                                    <div className=" input">{capitalizeFirstLetter(plan[ele]?.toString())}</div>
+                                    <div className=" input">{capitalizeFirstLetter(plan[ele].toString())}</div>
                                 </div>
                             ))
                         }
                     </div>
+
                 </div>
-                <div className='GoToBooking'>
-                    <li>
-                    <button className="btn" onClick={()=>{
-                        handleClick1();
-                        routeChange();
-                    }}>
-                        Book Now        
-                    </button> 
-                      
-                        </li>
-                                
-                            </div>
             </div>
-{/* ab mai yaha par booknow karta hu toh mere paas saare plan ke details aajane chahiye then uss details ko booking ke saath aage forward kar deng auth context ka use karke */}
-                    
+
             <div className='reviewBox'>
-            <h1 className='h1'>Reviews</h1>
-                <div className="line"></div>
                 <div className="reviewEnrty">
-                    
                     <input type="text" value={review} onChange={(e) => setreview(e.target.value)} />
-                    <select name="" id="" className="select" onChange={(e) =>  setrate(e.target.value) }>
-                        <option value="5">5 Excellent</option>
+                    <select name="" id="" className="select" onChange={(e) => { setrate(e.target.value) }}>
+                        <option value="5">5 Exellent</option>
                         <option value="4">4 Very Good</option>
                         <option value="3">3 Good</option>
                         <option value="2">2 Poor</option>
@@ -201,7 +92,7 @@ function PlanDetail({ children }) {
                             <div className="pdreviews">
                                 <div className="pdrdetail">
                                     <h3>{ele.user.name}</h3>
-                                    <div className="input"> {ele.description}</div>
+                                    <div className="input"> {ele.review}</div>
                                 </div>
                                 <div className='rate'>
                                     {
@@ -220,18 +111,6 @@ function PlanDetail({ children }) {
 
             </div>
         </div>
-
-        <div>
-        < PlanContext.Provider value={value}>
-            {children}
-            
-        </PlanContext.Provider >
-                
-        </div>
-        </>
-    )
-    }
-    </>
     )
 }
 

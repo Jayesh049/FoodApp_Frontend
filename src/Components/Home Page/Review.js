@@ -8,8 +8,7 @@ function Review() {
 
     useEffect(async () => {
         try {
-            const data = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/review/best3");
-            // console.log("I am getting top 3 reviews" , data.data.reviews);
+            const data = await axios.get("https://nice-pink-swordfish.cyclic.app/api/top3reviews");
             setarr(data.data.reviews);
         } catch (err) {
             console.log(err);
@@ -31,7 +30,7 @@ function Review() {
                                     <img alt='' src={ele.user.profileImage} className='img' />
                                 </div>
                                 <div className='rheader'>
-                                    <h3 className="rh3">{ele.user.name}</h3>
+                                    <h3 className="rh3">Shreya Srivastava</h3>
                                 </div>
                                 <div className='rsummary'>
                                     <p className='para'>
@@ -46,9 +45,9 @@ function Review() {
                         )
                     }
                 </div>
-                
             </div>
         </div>
     )
 }
+
 export default Review

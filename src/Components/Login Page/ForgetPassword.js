@@ -6,9 +6,9 @@ import { useAuth } from '../Context/AuthProvider';
 
 function ForgetPassword() {
     const [email, emailSet] = useState("");
-    const { setResetEmail } = useAuth();
+    const { setResetEmail } = useAuth();//useAuth se mangwa liya humne resetEmail karne ke liye
     const history = useHistory();
-        
+        //request -> forgetPassword Route
     const sendEmail = async() => {
         try {
             let res = await axios.patch("https://foodappbackend-lk5m.onrender.com/api/v1/auth/forgetPassword", { email })
@@ -19,13 +19,13 @@ function ForgetPassword() {
             }else{
                 alert("Mail send to your registered email ID");
                 setResetEmail(email);
-                
+                //send to your Otp page i.e,(resetPasswordPage)
                 history.push("/otp");
             }
         } catch (err){
             console.log(err.message);
         }
-        
+        //send to resetPassword Page
     }
     return (
         <div className="container-grey">

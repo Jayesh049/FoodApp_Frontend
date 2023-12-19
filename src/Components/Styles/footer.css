@@ -1,12 +1,12 @@
 .footerImg{
-    height: 30vh;
+    height: 15vh;
     background-image: url('../Images/foodiesfeed.com_pizza-ready-for-baking.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
 }
 footer{
-    height: 30vh;
+    height: 15vh;
     background-image: linear-gradient(rgba(0, 0, 0, 0.507), rgba(0, 0, 0, 0.849))
 }
 .footer-p{

@@ -75,8 +75,7 @@
 }
 
 .btn {
-    cursor:pointer;
-    height: 48px;
+    height: 480px;
     width: 130px;
     border-radius: 2rem;
     margin-right: 25px;
@@ -98,6 +97,15 @@
     width: 150px;
     background: transparent;
     color: #F7115F;
+}
+
+
+.bookNowBtn {
+    width: 150px;
+    background: transparent;
+    color: #F7115F;
+
+    
 }
 
 .featureCard {

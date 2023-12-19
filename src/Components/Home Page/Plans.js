@@ -1,32 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import '../Styles/plan.css';
-import '../Styles/loading.css';
 import Tick from '../Images/check-mark.png'
 import axios from 'axios';
-
-
+import { Link } from 'react-router-dom';
 
 function Plans() {
     const [arr, arrset] = useState([]);
-    
 
-    useEffect(() => {
-    
-        async function getBookingDataById(){
-            try {
-                const data = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/plan/sortByRating");
-                arrset(data.data.plans);
-            } catch (err) {
-                console.log(err);
-            }
+    useEffect(async () => {
+        try {
+            const data = await axios.get("http://localhost:3000/api/v1/plan/");
+            arrset(data.data.data);
+            console.log(data.data);
+        } catch (err) {
+            console.log(err);
         }
-        getBookingDataById();
     }, [])
 
     return (
-     <>
-        
-            <div className='plansCard'>
+        <div className='plansCard'>
             <div className='h1Box'>
                 <h1 className='h1'>START EATING HEALTHY TODAY</h1>
                 <div className="line"></div>
@@ -40,7 +32,7 @@ function Plans() {
                                 <div className='price'>Rs {ele.price}</div>
                                 <div className="duration">/month</div>
                             </div>
-                            <p className="point">That’s only {ele.price /80} $ per meal</p>
+                            <p className="point">That’s only 2₹ per meal</p>
                         </div>
 
                         <div className='pCard2'>
@@ -63,10 +55,7 @@ function Plans() {
             </div>
         
         </div>
-    
-    </>
-        )
-        
+    )
 }
 
 export default Plans
