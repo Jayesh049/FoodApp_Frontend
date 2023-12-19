@@ -79,7 +79,7 @@ function AllPlans() {
                                 </div>
                             </div>
 
-                            <button className='btn'> <Link to={`/planDetail/${ele._id}`} >I'm Hungry</Link></button>
+                            <button className='btn-plan'> <Link to={`/planDetail/${ele._id}`} >I'm Hungry</Link></button>
                         </div>
                     )}
 

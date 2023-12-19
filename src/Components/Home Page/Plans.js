@@ -30,6 +30,11 @@ function Plans() {
                         <div className='pCard1'>
                             <div className='priceBox'>
                                 <div className='price'>Rs {ele.price}</div>
+                                < img src={`http://localhost:3000/`+ ele.image}
+                                height={200}
+                                width={200}
+                            />
+                                
                                 <div className="duration">/month</div>
                             </div>
                             <p className="point">That’s only 2₹ per meal</p>

@@ -8,7 +8,7 @@ function Review() {
 
     useEffect(async () => {
         try {
-            const data = await axios.get("https://nice-pink-swordfish.cyclic.app/api/top3reviews");
+            const data = await axios.get("http://localhost:3000/api/top3reviews");
             setarr(data.data.reviews);
         } catch (err) {
             console.log(err);

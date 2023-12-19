@@ -74,7 +74,7 @@
     /* background-color: rgb(165, 165, 52); */
 }
 
-.btn {
+.btn-plan {
     height: 480px;
     width: 130px;
     border-radius: 2rem;
@@ -87,6 +87,18 @@
     transition: transform 0.3s, background-color 0.3s;
 }
 
+.btn{
+    height: 48px;
+    width: 130px;
+    border-radius: 2rem;
+    margin-right: 25px;
+    background-color: #F7115F;
+    border: 3px solid #F7115F;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    transition: transform 0.3s, background-color 0.3s;
+}
 .btn:hover {
     transform: scale(1.2);
     background-color: #F7115F;

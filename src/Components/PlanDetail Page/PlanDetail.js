@@ -6,6 +6,8 @@ import '../Styles/contact.css'
 import AuthProvider, { useAuth } from '../Context/AuthProvider';
 
 function PlanDetail() {
+    const [image , setImage] = useState();
+
     const [plan, setplan] = useState({})
     const { id } = useParams();
     const [arr, setarr] = useState();
@@ -13,12 +15,15 @@ function PlanDetail() {
     const [rate, setrate] = useState();
     const { user } = useAuth();
     useEffect(async () => {
-        const data = await axios.get(`https://nice-pink-swordfish.cyclic.app/api/plan/${id}`)
-        console.log(data.data.data);
-        delete data.data.data["_id"]
-        delete data.data.data["__v"]
-        setplan(data.data.data)
-        const reviews = await axios.get("https://nice-pink-swordfish.cyclic.app/api/getReview/" + id);
+        const data = await axios.get(`http://localhost:3000/api/v1/plan/${id}`)
+        console.log(data.data.plan.image);
+        setImage(data.data.plan.image);
+        delete data.data.plan["_id"]
+        delete data.data.plan["__v"]
+        delete data.data.plan.image;
+        delete data.data.plan.reviews;
+        setplan(data.data.plan)
+        const reviews = await axios.get("http://localhost:3000/api/getReview/" + id);
         setarr(reviews.data.reviews)
         console.log(arr);
     }, [])
@@ -26,16 +31,16 @@ function PlanDetail() {
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
-    console.log(rate);
+    // console.log(rate);
     const handleClick = async () => {
         console.log(123645);
-        const data = await axios.post("https://nice-pink-swordfish.cyclic.app/api/reviews", {
+        const data = await axios.post("http://localhost:3000/api/reviews", {
             "review": review,
             "rating": rate,
             "user": user.user._id,
             "plan": id
         })
-        const reviews = await axios.get("https://nice-pink-swordfish.cyclic.app/api/getReview/" + id);
+        const reviews = await axios.get("http://localhost:3000/api/getReview/" + id);
         setarr(reviews.data.reviews);
     }
     const handleDelete = async() =>{
@@ -57,18 +62,24 @@ function PlanDetail() {
                 <div className="line"></div>
             </div>
             <div className="planDetailBox">
-                <div className='planDetail'>
-                    <div className="loginBox">
+                <div className='app__gallery-images1'>
+                    <div className="app__gallery-images_container1">
                         {
                             Object.keys(plan).map((ele, key) => (
                                 <div className='entryBox' key={key}>
                                     <div className="entryText">{capitalizeFirstLetter(ele)}</div>
                                     <div className=" input">{capitalizeFirstLetter(plan[ele].toString())}</div>
+                              
                                 </div>
+                                
                             ))
                         }
+                        
                     </div>
-
+                    < img src={`http://localhost:3000/`+ image}
+                                height={200}
+                                width={320}
+                            />
                 </div>
             </div>
 
