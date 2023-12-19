@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { BsInstagram , BsArrowLeftShort ,BsArrowRightShort } from 'react-icons/bs';
+
 import '../Styles/allplans.css';
 import Tick from '../Images/check-mark.png'
 import axios from 'axios';
@@ -7,6 +9,18 @@ import { Link } from 'react-router-dom';
 function AllPlans() {
     const [arr, arrset] = useState([]);
     const [image , setImage] = useState();
+    const scrollRef = React.useRef(null);
+
+    // scroll logic
+    const scroll = (direction) => {
+      const { current } = scrollRef;
+  
+      if(direction === 'left') {
+        current.scrollLeft -= 1200;
+      }else {
+        current.scrollLeft += 1200;
+      }
+    }
     useEffect(async () => {
         try {
             const res = await axios.get("http://localhost:3000/api/v1/plan/");
@@ -19,20 +33,29 @@ function AllPlans() {
         }
     }, [])
     return (
-        <div className='allplansCard'>
+        <div className='app__gallery flex__center'>
             <div className='h1Box'>
                 <h1 className='h1'>START EATING HEALTHY TODAY</h1>
                 <div className="line"></div>
             </div>
             <div className='allplanDetails'>
-                <div className='planDetails'>
+            <div className="app__gallery-images">
+
+                <div className='app__gallery-images_container' ref={scrollRef}>
                     {arr && arr?.map((ele, key) =>
                         <div className='apCard' key={key}>
+                             {/* arrows */}
+                             
                             <h1 className='h1'>{ele.name}</h1>
+                            <div className="app__gallery-images_card ">
                             < img src={`http://localhost:3000/`+ ele.image}
                                 height={200}
                                 width={200}
                             />
+                                
+                            </div>
+                            
+   
                             <div className='pCard1'>
                                 <div className='priceBox'>
                                     <div className='price'>Rs {ele.price}</div>
@@ -61,7 +84,12 @@ function AllPlans() {
                     )}
 
                 </div>
+                <div className="app__gallery-images_arrows">
+                            <BsArrowLeftShort className="gallery__arrow-icon" onClick={() => scroll('left')} />
+                            <BsArrowRightShort className="gallery__arrow-icon" onClick={() => scroll('right')} />
+                            </div>
             </div>
+        </div>
         </div>
     )
 }

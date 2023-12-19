@@ -3,6 +3,7 @@
 }
 .planDetails{
     width: 100%;
+    grid-template-columns: repeat(3, 1fr);
     display: flex;
     justify-content: space-evenly;
     align-items: center;
