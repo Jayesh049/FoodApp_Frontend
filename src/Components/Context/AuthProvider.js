@@ -1,26 +1,32 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import '../Styles/login.css'
 import axios from 'axios';
-import { useHistory } from 'react-router';
+
 export const AuthContext = React.createContext();
-//custom hook that allows components to access context data
+
 export function useAuth() {
     return useContext(AuthContext)
 }
-// sync -> if you have a user or not on login and logout 
-// It also exposes you lossley coupled auth functions
-// 
+
 function AuthProvider({ children }) {
-    // const history = useHistory();
+
     const [user, userSet] = useState("");
     const [loading, setLoading] = useState(false);
-    //for defining resetPass and sendingOtp 
     const [ resetPasswordEmail  , setResetEmail ] = useState(null);
     const [ otpPassEmail , setOtpPassEmail] = useState(null);
 
+    window.onload = () => {
+        let reloading = sessionStorage.getItem("reloading");
+        if (reloading) {
+            sessionStorage.removeItem("reloading");
+
+        }
+    }
+
+
     async function signUp(name, password, email, confirm) {
         try {
-            console.log("signup will be here");
+
             let res = await axios.post
                 ("https://foodappbackend-lk5m.onrender.com/api/v1/auth/signup", {
                     name: name,
@@ -35,31 +41,47 @@ function AuthProvider({ children }) {
             // console.log("data", res.data);
 
         } catch (err) {
-            console.log("err", err.message);
+
             if(err.message === "Request failed with status code 400"){
                 alert("improper user data entry")
             }
             setLoading(false);
         }
     }
-    async function login(email, password) {
+    async function login(email, password ) {
         let flag =  true;
+
+
         try {
             setLoading(true);
-            const res = await axios.post("https://foodappbackend-lk5m.onrender.com/api/v1/auth/login",
-             {
+
+            const res = await axios.post("https://foodappbackend-lk5m.onrender.com/api/v1/auth/login", {
                 email: email,
                 password: password
             });
-            console.log(res.status);
-            userSet(res.data.user);// }
+
+            userSet(res.data.user);
+            console.log(res);
+            if(res.data.result  === "ok"){
+                window.localStorage.setItem("user" , res.data.user._id);
+                window.localStorage.setItem("loggedIn" ,true);
+
+            }
+
+            if("loggedIn" === true){
+            sessionStorage.setItem("reloading", "false");
+            window.location.reload(false); 
+            }
+
             setLoading(false);  
-            // console.log("40",res.data);
+            // whenever user is successfully logged in the isloggedin variable will be vreated and marked to true 
+
             return flag;
         }
         catch (err) {
             flag = false;
-            console.log(err);
+
+
             if (err.message === "Request failed with status code 404") {
                 alert("Password or email may be wrong");
                 flag = false;
@@ -76,12 +98,14 @@ function AuthProvider({ children }) {
             setLoading(false);
             return flag;
         }
-        console.log("login will be here");
+
     }
     function logout() {
-        // localStorage.removeItem("user")
-        // userSet(null);
-        // console.log("logout will come here");
+
+        localStorage.clear();
+        window.localStorage.setItem("loggedIn" ,false);
+        userSet(null);
+
     }
 
     const value = {

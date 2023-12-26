@@ -7,7 +7,7 @@ function NavBar() {
     // console.log(localStorage.getItem("user"));
     const { user, logout } = useAuth()
 //  console.log(user)
-           useEffect(() => {
+;    useEffect(() => {
         let navBar = document.querySelector("nav");
 
         window.addEventListener('scroll', function () {
@@ -19,7 +19,7 @@ function NavBar() {
             }
         });
     }, []);
-    
+
     return (
         <nav>
             <div className="menu">

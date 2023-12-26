@@ -1,12 +1,24 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import  axios  from 'axios';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router';
 import '../Styles/planDetail.css'
 import '../Styles/contact.css'
-import AuthProvider, { useAuth } from '../Context/AuthProvider';
+import  { useAuth } from '../Context/AuthProvider';
+import { useHistory } from 'react-router-dom';
+import moment from 'moment';
+const BDS = moment().format('YYYY-MM-DD HH:mm:ss')
+export const PlanContext = React.createContext();
+//custom hook that allows components to access context data
 
-function PlanDetail() {
+export function usePlan() {
+    return useContext(PlanContext)
+}
+
+function PlanDetail({children }) {
     const [image , setImage] = useState();
+    const history = useHistory();
+    const [loading, setLoading] = useState(false);
+    const [booking ,setbooking] = useState({})   
 
     const [plan, setplan] = useState({})
     const { id } = useParams();
@@ -14,46 +26,92 @@ function PlanDetail() {
     const [review, setreview] = useState("");
     const [rate, setrate] = useState();
     const { user } = useAuth();
-    useEffect(async () => {
-        const data = await axios.get(`http://localhost:3000/api/v1/plan/${id}`)
-        console.log(data.data.plan.image);
-        setImage(data.data.plan.image);
-        delete data.data.plan["_id"]
-        delete data.data.plan["__v"]
-        delete data.data.plan.image;
-        delete data.data.plan.reviews;
-        setplan(data.data.plan)
-        const reviews = await axios.get("http://localhost:3000/api/getReview/" + id);
-        setarr(reviews.data.reviews)
-        console.log(arr);
-    }, [])
 
+
+    useEffect( () => {
+        async function loadingTimer(){
+                setLoading(true);
+                setTimeout(() => {
+                setLoading(false);
+            }, 2000);
+            }
+        async function getPlanData() {
+            const data = await axios.get(`http://localhost:3000/api/v1/plan/${id}`)
+            setImage(data.data.plan.image);
+            delete data.data.plan["_id"]
+            delete data.data.plan["__v"]
+            delete data.data.plan["reviews"];
+            delete data.data.plan["averageRating"];
+            delete data.data.plan.image;
+            setplan(data.data.plan)
+
+
+            const reviews = await axios.get("http://localhost:3000/api/v1/review/");
+            setarr(reviews.data.reviews);
+            console.log(reviews.data.reviews);
+
+        }
+        loadingTimer();
+        getPlanData();
+
+    }, [])
+  
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
     // console.log(rate);
     const handleClick = async () => {
         console.log(123645);
-        const data = await axios.post("http://localhost:3000/api/reviews", {
-            "review": review,
+        
+        let data = await axios.post("http://localhost:3000/api/v1/review/", {
+            "description": review,
             "rating": rate,
             "user": user.user._id,
-            "plan": id
-        })
+            "plan": id,
+    })
+    alert("this is " ,data);
+
         const reviews = await axios.get("http://localhost:3000/api/getReview/" + id);
         setarr(reviews.data.reviews);
     }
     const handleDelete = async() =>{
         try{
-            let data = await axios.delete("https://nice-pink-swordfish.cyclic.app/", {
-                "id": id
+            let data = await axios.delete("http://localhost:3000/api/v1/review/", {
+                        "description": review,
+                        "rating": rate,
+                        "user": user.user._id,
+                        "plan": id,
+
+
             });
+            console.log(data);
             alert(data);
         }
         catch(err){
             alert(err);
         }
     }
+    const handleClick1 = async () => {
+
+        const plans = await axios.get(`http://localhost:3000/api/v1/plan/${id}` );
+
+
+        const data = await axios.post("http://localhost:3000/api/v1/booking/", {
+                "bookedAt": BDS,
+                "priceAtThatTime": plans.data.plan.price,
+                "user": user,
+                "plan": plans.data.plan._id,
+                "status":"pending"
+            })
+            setbooking(data);
+            console.log(user._id);
+            alert("Plan is succesfully booked",data);
+
+        }
+
+    const routeChange = () =>{  
+        history.push('/booking1');
+      }
 
     return (
         <div className="pDetailBox">
@@ -81,7 +139,21 @@ function PlanDetail() {
                                 width={320}
                             />
                 </div>
+                <div className='GoToBooking'>
+                    <li>
+                    <button className="btn" onClick={()=>{
+                        handleClick1();
+                        routeChange();
+                    }}>
+                        Book Now        
+                    </button> 
+
+                        </li>
+
+                            </div>
+
             </div>
+            {/* ab mai yaha par booknow karta hu toh mere paas saare plan ke details aajane chahiye then uss details ko booking ke saath aage forward kar deng auth context ka use karke */}
 
             <div className='reviewBox'>
                 <div className="reviewEnrty">

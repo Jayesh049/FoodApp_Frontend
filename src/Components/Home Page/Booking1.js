@@ -79,6 +79,8 @@ function Booking () {
                 "plan": bookings.data.slice(-1)[0].plan,
                 "status":"pending"
             })
+
+            
     
             if (!result) {
                 alert("Server error. Are you online?");
@@ -137,14 +139,15 @@ function Booking () {
                     <h1 className='h1'>BOOK NOW</h1>
                     <div className="line"></div>
                 </div>
-                <div className="planDetailBox">
+                <div className="planDetailBox1">
                 <div className='planDetail'>
                     <div className="loginBox">
+                        
                         {
                             Object.keys(booking).map((ele, key) => (
                                 <div className='entryBox' key={key}>
                                     <div className="entryText">{capitalizeFirstLetter(ele)}</div>
-                                   
+                                    
                                     <div className=" input">{capitalizeFirstLetter(booking[ele]?.toString())}</div>
                                 </div>
                             ))

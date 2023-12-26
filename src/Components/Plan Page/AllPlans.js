@@ -29,7 +29,7 @@ function AllPlans() {
             arrset(res.data.Allplans);
             setImage(res.data.Allplans[arr.length -1].image);
         } catch (err) {
-            console.log(err);
+            // console.log(err);
         }
     }, [])
     return (

@@ -19,16 +19,16 @@
 
 .allplanDetails {
     
-    width: 100%;
+    width: 85%;
     padding: 55px 0;
-    display: flex;
-  align-items: center;
-  justify-content: center;
+    
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
+
+
 .app__gallery-images_card {
     position: relative;
     min-width: 301px;
@@ -161,14 +161,13 @@
 }
 
 .app__gallery-images_arrows  {
-    width: 100%;
+    width: 105%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     padding: 0 1rem;
     position: absolute;
-    bottom: 7%;
+    bottom: 8%;
 }
 
 .gallery__arrow-icon {

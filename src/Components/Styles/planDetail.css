@@ -4,6 +4,14 @@
     background-color: #eef0ef;
 }
 .planDetailBox{
+    height: 410px;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center ;
+}
+.planDetailBox1{
     height: 550px;
     padding: 30px 20px;
     display: flex;

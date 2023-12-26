@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect,  useState, useContext } from 'react';
 import { AuthContext } from '../Context/AuthProvider';
-import axios from 'axios';
 import { Link } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
 import '../Styles/login.css'
@@ -10,20 +9,29 @@ function Login() {
     const history = useHistory();
     const [password, passwordSet] = useState("")
     const [email, emailSet] = useState("");
-    const [loading, setLoading] = useState(false);
-    const {login, user} = useContext(AuthContext);
+    const {login} = useContext(AuthContext);
 
 
-
-    const handleLogin = async () => {
-        try {
-            console.log(email,password)
-            let flag = await login(email, password)
-            if(flag)  history.push("/")
-          } catch(err) {
-            console.log(err);
+        function refreshPage() {
+            window.location.reload(false);
           }
-    }
+
+            const handleLogin1 = async (e) => {
+
+                try {
+                    // console.log(email,password)
+                    let flag = await login(email, password)
+                    if(flag) 
+                     history.push("/")
+                  } catch(err) {
+                    console.log(err);
+                  }
+                  if("loggedIn" === true){
+                    sessionStorage.setItem("reloading", "false");
+                    window.location.reload(false); 
+                    }
+
+            }
 
     return (
         <div className="container-grey">
@@ -42,7 +50,11 @@ function Login() {
                         <div className="entryText">Password</div>
                         <input className="password input" type="password" name="Password" placeholder="**********" onChange={(e) => passwordSet(e.target.value)} />
                     </div>
-                    <button className="loginBtn  form-button" /* submit se form fill ho jaata hai => type="submit"*/ onClick={handleLogin}>
+                    <button className="loginBtn  form-button" /* submit se form fill ho jaata hai => type="submit"*/ 
+                        onClick={()=>{
+
+                            handleLogin1();
+                        }}>
                         Login
                     </button>
                     <div className='otherOption'>
@@ -58,5 +70,4 @@ function Login() {
         </div>
     )
 }
-
 export default Login;
