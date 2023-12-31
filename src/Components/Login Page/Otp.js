@@ -5,21 +5,18 @@ import { useAuth } from "../Context/AuthProvider";
 
 function OTP() {
     const [ otp , otpSet ] = useState("");
-    //Object is not iterable (cannot read property Symbol(Symbol.iterator)) iss error ko theek karne ke liye hum curly braces me define karenge apne auth
-    //ke andar defined obj ko
+    
     const { resetPasswordEmail , setOtpPassEmail } = useAuth();
     const history = useHistory(); 
 
     const saveOTP = async () => {
         setOtpPassEmail(otp);
-        //send this to password and confirmPassword page
         history.push("/passwordReset");
 
     }
  return (
-    //agar piche se resetPasswordEmail null nahi hai toh hi aage ka process karne do
-    //in english if i wanted to say then we will say if resetPasswordEmail is not 
-    // null then we will render our function else we will se first go to forgetpassword page 
+    
+    
     <>{
         resetPasswordEmail != null ?
         <div className="container-grey">

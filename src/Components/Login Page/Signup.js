@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom';
 import { useAuth } from '../Context/AuthProvider';
 
 function Signup(props) {
-    // react-router-dom
     const history = useHistory();
     const { signUp } = useAuth()
     const [name, nameSet] = useState("");
@@ -15,16 +14,13 @@ function Signup(props) {
     const handleSignup = async () => {
         try {
             console.log("sending request");
-            // do signup
             await signUp(name, password, email, confirm);
-            // send user to login 
             history.push("/login");
         }
         catch (err) {
             console.log(err);
         }
     }
-// click
     return (
         <div className="container-grey">
             <div className="form-container">

@@ -19,7 +19,6 @@ function Login() {
             const handleLogin1 = async (e) => {
 
                 try {
-                    // console.log(email,password)
                     let flag = await login(email, password)
                     if(flag) 
                      history.push("/")
@@ -50,7 +49,7 @@ function Login() {
                         <div className="entryText">Password</div>
                         <input className="password input" type="password" name="Password" placeholder="**********" onChange={(e) => passwordSet(e.target.value)} />
                     </div>
-                    <button className="loginBtn  form-button" /* submit se form fill ho jaata hai => type="submit"*/ 
+                    <button className="loginBtn  form-button" 
                         onClick={()=>{
 
                             handleLogin1();

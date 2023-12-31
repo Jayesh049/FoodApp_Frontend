@@ -12,13 +12,8 @@ function PasswordReset() {
     const {resetPasswordEmail , setResetEmail , setOtpPassEmail , otpPassEmail } = useAuth();
     const history = useHistory();
 
-    //email , otp
-    //ye send karega request to our resetPassword
     const resetPassword = async () =>{
-        // i will send everything jo required hoga
-        //done -> email , otp -> null
-        //send  to login Page
-        //no done -> email , otp -> null
+        
         try {
             let res = await axios.patch("https://foodappbackend-lk5m.onrender.com/api/v1/auth/resetPassword",{
                 otp : otpPassEmail,
@@ -26,14 +21,12 @@ function PasswordReset() {
                 password : password,
                 confirmPassword : passwordcnf
             })
-            //whenever
             if(res.status === 201){
                 alert("password changed successfully");
                 setOtpPassEmail(null);
                 setResetEmail(null);
                 history.push("/login");
             }else if( res.status === 400){
-                //inside this status there are two conditions
                 if(res.status === "Otp Expired"){
                     alert("Otp expired kindly regenerate")
                 }else if(res.message === "wrong otp"){
@@ -47,7 +40,6 @@ function PasswordReset() {
             if(err.message === "Request failed with status code 500"){
                 alert("Internal server error");
             }
-            //jab bhi koi bhi try catch chale hum otp aur email ko null kar denge so that we cant use in future purpose
             setOtpPassEmail(null);
             setResetEmail(null);
         }

@@ -18,12 +18,10 @@ import PasswordReset from './Components/Login Page/PasswordReset';
 import Booking1 from './Components/Home Page/Booking1';
 import PaymentSuccess from './Components/Home Page/PaymentSuccess';
 function App() {
-  // const user = useAuth();
   const isLoggedIn = window.localStorage.getItem("loggedIn");
 
   return (
     <Router>
-      {/* is providing the data that is your user logged in or not */}
       <AuthProvider>
         <NavBar />
         <Switch>

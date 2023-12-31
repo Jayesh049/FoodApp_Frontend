@@ -29,7 +29,6 @@ function Booking () {
             const timer = setTimeout(async() => {
                 const bookings = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/booking/");
                 delete bookings.data.slice(-1)[0]["_id"];
-                // delete bookings.data.slice(-1)[0]["user"];
                 delete bookings.data.slice(-1)[0]["__v"];
                 delete bookings.data.slice(-1)[0]["status"];
                 setbooking(bookings.data.slice(-1)[0]);
@@ -71,7 +70,7 @@ function Booking () {
     
             const bookings = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/booking/");
     
-            // creating a new order
+            
             const result = await axios.post("https://foodappbackend-lk5m.onrender.com/api/v1/booking/", {
                 "bookedAt": BDS,
                 "priceAtThatTime": bookings.data.slice(-1)[0].priceAtThatTime,
@@ -89,11 +88,11 @@ function Booking () {
             const { data: { key } } = await axios.get("https://foodappbackend-lk5m.onrender.com/api/getkey")
         
     
-            // Getting the order details back
+
             const { amount, id: order_id, currency } = result.data;
     
             const options = {
-                key: key, // Enter the Key ID generated from the Dashboard
+                key: key, 
                 amount: amount.toString(),
                 currency: currency,
                 name: "Jayesh Kumar",

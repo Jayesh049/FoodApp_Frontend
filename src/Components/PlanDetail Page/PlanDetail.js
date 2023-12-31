@@ -8,7 +8,6 @@ import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 const BDS = moment().format('YYYY-MM-DD HH:mm:ss')
 export const PlanContext = React.createContext();
-//custom hook that allows components to access context data
 
 export function usePlan() {
     return useContext(PlanContext)
@@ -59,7 +58,6 @@ function PlanDetail({children }) {
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
-    // console.log(rate);
     const handleClick = async () => {
         console.log(123645);
         
@@ -153,7 +151,6 @@ function PlanDetail({children }) {
                             </div>
 
             </div>
-            {/* ab mai yaha par booknow karta hu toh mere paas saare plan ke details aajane chahiye then uss details ko booking ke saath aage forward kar deng auth context ka use karke */}
 
             <div className='reviewBox'>
                 <div className="reviewEnrty">

@@ -11,7 +11,6 @@ function AllPlans() {
     const [image , setImage] = useState();
     const scrollRef = React.useRef(null);
 
-    // scroll logic
     const scroll = (direction) => {
       const { current } = scrollRef;
   
@@ -24,12 +23,10 @@ function AllPlans() {
     useEffect(async () => {
         try {
             const res = await axios.get("http://localhost:3000/api/v1/plan/");
-            //res mangwaya aur data ke saath Allplans function
-            // console.log(res.data.Allplans[arr.length -1].image);
+            
             arrset(res.data.Allplans);
             setImage(res.data.Allplans[arr.length -1].image);
         } catch (err) {
-            // console.log(err);
         }
     }, [])
     return (
@@ -44,7 +41,6 @@ function AllPlans() {
                 <div className='app__gallery-images_container' ref={scrollRef}>
                     {arr && arr?.map((ele, key) =>
                         <div className='apCard' key={key}>
-                             {/* arrows */}
                              
                             <h1 className='h1'>{ele.name}</h1>
                             <div className="app__gallery-images_card ">
