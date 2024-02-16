@@ -1,0 +1,18 @@
+
+  .card{
+    margin-left: 200px;
+    margin-top: 100px;
+    background: white;
+    padding: 60px;
+    padding-top: 100px;
+    padding-left: 400px;
+    padding-right: 400px;
+    border-radius: 4px;
+    box-shadow: 0 2px 3px #C8D0D8;
+    display: inline-block;
+    margin: 0 auto;
+  }
+  .center{
+    text-align: center;
+  }
+  

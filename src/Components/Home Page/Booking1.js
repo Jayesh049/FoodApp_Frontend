@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 
 
+
 const BDS = moment().format('YYYY-MM-DD HH:mm:ss')
 
 function Booking () {
@@ -107,11 +108,17 @@ function Booking () {
                         razorpaySignature: response.razorpay_signature,
                     };
                     
-                    const result = await axios.post("http://localhost:3000/api/v1/booking/verification", data);
-    
+                    const result = await axios.post("https://foodappbackend-lk5m.onrender.com/api/v1/booking/verification", data);
+                    
                     alert(result.data.msg);
+
+                    if(result.data.msg === 'success'){
+                        history.push('/paymentsuccess');            
+                    }else if(result.data.msg === 'failure'){
+                        history.push('/paymentFailure');
+                    }
                 },
-                
+                  
                 theme: {
                     color: "#61dafb",
                 },
@@ -120,8 +127,10 @@ function Booking () {
             const paymentObject = new window.Razorpay(options);
             paymentObject.open();
         
-            history.push('/paymentsuccess');   
+            
+               
         }
+        
         
 
    
@@ -157,6 +166,8 @@ function Booking () {
                 </div>
                 
                 </div>
+
+                
                 <button className="btn"  onClick={displayRazorpay}>
                         PayNow        
                     </button>

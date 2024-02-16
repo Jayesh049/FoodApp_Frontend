@@ -22,7 +22,7 @@ function AllPlans() {
     }
     useEffect(async () => {
         try {
-            const res = await axios.get("http://localhost:3000/api/v1/plan/");
+            const res = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/plan/");
             
             arrset(res.data.Allplans);
             setImage(res.data.Allplans[arr.length -1].image);
@@ -44,7 +44,7 @@ function AllPlans() {
                              
                             <h1 className='h1'>{ele.name}</h1>
                             <div className="app__gallery-images_card ">
-                            < img src={`http://localhost:3000/`+ ele.image}
+                            < img src={`https://foodappbackend-lk5m.onrender.com/`+ ele.image}
                                 height={200}
                                 width={200}
                             />

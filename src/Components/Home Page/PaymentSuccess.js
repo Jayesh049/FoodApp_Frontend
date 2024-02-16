@@ -1,15 +1,23 @@
-
 import React from 'react';
-const PaymentSuccess = () => {
+import '.././Styles/paymentsuccess.css';
+import { Checkmark } from 'react-checkmark'
 
 
-    return (
-        <div>
-            <div >
-                <h1> Order Successfull</h1>
-            </div>
-        </div>
-    )
+function App() {
+  
+    
+	return (
+		
+        <div class="card">
+            <Checkmark size='xxLarge' />
+        <h1 class="center">Thank you.</h1>
+        <h4 class="center">Your order has been placed successfully.</h4>
+        <h4 class="center">We will immediatelly process your and it will be delivered in 30 minutes.</h4>
+    </div>
+          
+    
+
+		
+	);
 }
-
-export default PaymentSuccess
+export default App;

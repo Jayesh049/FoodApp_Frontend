@@ -35,7 +35,7 @@ function PlanDetail({children }) {
             }, 2000);
             }
         async function getPlanData() {
-            const data = await axios.get(`http://localhost:3000/api/v1/plan/${id}`)
+            const data = await axios.get(`https://foodappbackend-lk5m.onrender.com/api/v1/plan/${id}`)
             setImage(data.data.plan.image);
             delete data.data.plan["_id"]
             delete data.data.plan["__v"]
@@ -45,7 +45,7 @@ function PlanDetail({children }) {
             setplan(data.data.plan)
 
 
-            const reviews = await axios.get("http://localhost:3000/api/v1/review/");
+            const reviews = await axios.get("https://foodappbackend-lk5m.onrender.com/api/v1/review/");
             setarr(reviews.data.reviews);
             console.log(reviews.data.reviews);
 
@@ -61,7 +61,7 @@ function PlanDetail({children }) {
     const handleClick = async () => {
         console.log(123645);
         
-        let data = await axios.post("http://localhost:3000/api/v1/review/", {
+        let data = await axios.post("https://foodappbackend-lk5m.onrender.com/api/v1/review/", {
             "description": review,
             "rating": rate,
             "user": user.user._id,
@@ -69,12 +69,12 @@ function PlanDetail({children }) {
     })
     alert("this is " ,data);
 
-        const reviews = await axios.get("http://localhost:3000/api/getReview/" + id);
+        const reviews = await axios.get("https://foodappbackend-lk5m.onrender.com/api/getReview/" + id);
         setarr(reviews.data.reviews);
     }
     const handleDelete = async() =>{
         try{
-            let data = await axios.delete("http://localhost:3000/api/v1/review/", {
+            let data = await axios.delete("https://foodappbackend-lk5m.onrender.com/api/v1/review/", {
                         "description": review,
                         "rating": rate,
                         "user": user.user._id,
@@ -91,10 +91,10 @@ function PlanDetail({children }) {
     }
     const handleClick1 = async () => {
 
-        const plans = await axios.get(`http://localhost:3000/api/v1/plan/${id}` );
+        const plans = await axios.get(`https://foodappbackend-lk5m.onrender.com/api/v1/plan/${id}` );
 
 
-        const data = await axios.post("http://localhost:3000/api/v1/booking/", {
+        const data = await axios.post("https://foodappbackend-lk5m.onrender.com/api/v1/booking/", {
                 "bookedAt": BDS,
                 "priceAtThatTime": plans.data.plan.price,
                 "user": user,
@@ -132,10 +132,10 @@ function PlanDetail({children }) {
                         }
                         
                     </div>
-                    < img src={`http://localhost:3000/`+ image}
+                    < img src={`https://foodappbackend-lk5m.onrender.com/`+ image}
                                 height={200}
                                 width={320}
-                            />
+                            /> 
                 </div>
                 <div className='GoToBooking'>
                     <li>
@@ -145,10 +145,8 @@ function PlanDetail({children }) {
                     }}>
                         Book Now        
                     </button> 
-
-                        </li>
-
-                            </div>
+                   </li>
+                    </div>
 
             </div>
 
@@ -156,7 +154,7 @@ function PlanDetail({children }) {
                 <div className="reviewEnrty">
                     <input type="text" value={review} onChange={(e) => setreview(e.target.value)} />
                     <select name="" id="" className="select" onChange={(e) => { setrate(e.target.value) }}>
-                        <option value="5">5 Exellent</option>
+                        <option value="5">5 Excellent</option>
                         <option value="4">4 Very Good</option>
                         <option value="3">3 Good</option>
                         <option value="2">2 Poor</option>
