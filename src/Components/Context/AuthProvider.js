@@ -1,128 +1,87 @@
-import React, { useState, useContext } from 'react';
-import '../Styles/login.css'
+import React, { useState, useEffect,useContext } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export const AuthContext = React.createContext();
 
 export function useAuth() {
-    return useContext(AuthContext)
+  return useContext(AuthContext);
 }
 
 function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [resetPasswordEmail, setResetEmail] = useState(null);
+  const [otpPassEmail, setOtpPassEmail] = useState(null);
 
-    const [user, userSet] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [ resetPasswordEmail  , setResetEmail ] = useState(null);
-    const [ otpPassEmail , setOtpPassEmail] = useState(null);
+  useEffect(() => {
+    const loggedIn = localStorage.getItem('loggedIn');
+    if (loggedIn) {
+      setUser(JSON.parse(localStorage.getItem('user')));
+    }
+  }, []);
 
-    window.onload = () => {
-        let reloading = sessionStorage.getItem("reloading");
-        if (reloading) {
-            sessionStorage.removeItem("reloading");
-
+  async function signUp(name, password, email, confirm) {
+    try {
+      const res = await axios.post(
+        'https://foodappbackend-lk5m.onrender.com/api/v1/auth/signup',
+        {
+          name: name,
+          password: password,
+          confirmPassword: confirm,
+          email,
         }
+      );
+      setUser(res.data.user);
+      Cookies.set('jwt', res.data.token, { expires: 7 });
+      localStorage.setItem('loggedIn', true);
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+    } catch (err) {
+      console.log(err);
     }
+  }
 
-
-    async function signUp(name, password, email, confirm) {
-        try {
-
-            let res = await axios.post
-                ("https://foodappbackend-lk5m.onrender.com/api/v1/auth/signup", {
-                    name: name,
-                    password: password,
-                    confirmPassword: confirm,
-                    email
-                })
-                // if(res.status === 400){
-                // alert("improper user data entry")
-                // }
-                setLoading(false);
-            // console.log("data", res.data);
-
-        } catch (err) {
-
-            if(err.message === "Request failed with status code 400"){
-                alert("improper user data entry")
-            }
-            setLoading(false);
+  async function login(email, password) {
+    try {
+      const res = await axios.post(
+        'https://foodappbackend-lk5m.onrender.com/api/v1/auth/login',
+        {
+          email: email,
+          password: password,
         }
+      );
+      setUser(res.data.user);
+      Cookies.set('jwt', res.data.token, { expires: 7 });
+      localStorage.setItem('loggedIn', true);
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+    } catch (err) {
+      console.log(err);
     }
-    async function login(email, password ) {
-        let flag =  true;
+  }
 
+  function logout() {
+    Cookies.remove('jwt');
+    localStorage.removeItem('loggedIn');
+    localStorage.removeItem('user');
+    setUser(null);
+  }
 
-        try {
-            setLoading(true);
+  const value = {
+    user,
+    login,
+    signUp,
+    logout,
+    resetPasswordEmail,
+    setResetEmail,
+    otpPassEmail,
+    setOtpPassEmail,
+  };
 
-            const res = await axios.post("https://foodappbackend-lk5m.onrender.com/api/v1/auth/login", {
-                email: email,
-                password: password
-            });
-
-            userSet(res.data.user);
-            console.log(res);
-            if(res.data.result  === "ok"){
-                window.localStorage.setItem("user" , res.data.user._id);
-                window.localStorage.setItem("loggedIn" ,true);
-
-            }
-
-            if("loggedIn" === true){
-            sessionStorage.setItem("reloading", "false");
-            window.location.reload(false); 
-            }
-
-            setLoading(false);  
-            // whenever user is successfully logged in the isloggedin variable will be vreated and marked to true 
-
-            return flag;
-        }
-        catch (err) {
-            flag = false;
-
-
-            if (err.message === "Request failed with status code 404") {
-                alert("Password or email may be wrong");
-                flag = false;
-            } else if (err.message === "Request failed with status code 400") {
-                alert("user not found kindly login");
-                flag = false;
-            } else if (err.message === "Request failed with status code 500") {
-                alert("Internal server error");
-                flag = false;
-            }else if(err.message === "Request failed with status code 403"){
-                alert("email or password is wrong")
-                flag = false;
-            }
-            setLoading(false);
-            return flag;
-        }
-
-    }
-    function logout() {
-
-        localStorage.clear();
-        window.localStorage.setItem("loggedIn" ,false);
-        userSet(null);
-
-    }
-
-    const value = {
-        user,
-        login,
-        signUp,
-        logout,
-        resetPasswordEmail,
-        setResetEmail,
-        otpPassEmail,
-        setOtpPassEmail
-    }
-    return (
-        < AuthContext.Provider value={value} >
-            {/* if not loading show childrens  */}
-            {!loading && children}
-        </AuthContext.Provider >
-    )
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 }
-export default AuthProvider
+
+export default AuthProvider;
