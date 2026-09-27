@@ -1,0 +1,247 @@
+.review-page {
+  min-height: calc(100vh - 80px);
+  background: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+}
+
+.review-container {
+  background: var(--color-black);
+  border: 1px solid var(--color-golden);
+  padding: 3rem;
+  max-width: 700px;
+  width: 100%;
+}
+
+.review-container h1,
+.review-container h2,
+.review-container h3 {
+  font-family: var(--font-base);
+  color: var(--color-golden);
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.rating-section label,
+.review-text-section label {
+  font-family: var(--font-base);
+  color: var(--color-golden);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.star-rating {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.star {
+  font-size: 2rem;
+  color: var(--color-grey);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.star.filled,
+.star.interactive:hover {
+  color: var(--color-golden);
+}
+
+.rating-text {
+  color: var(--color-golden);
+  font-family: var(--font-alt);
+}
+
+.review-text-section textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-golden);
+  border-radius: 5px;
+  background: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-alt);
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.submit-review-btn,
+.back-btn {
+  background: var(--color-crimson);
+  color: var(--color-black);
+  font-family: var(--font-base);
+  font-weight: 700;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+}
+
+.skip-btn {
+  background: transparent;
+  color: var(--color-golden);
+  border: 1px solid var(--color-golden);
+  font-family: var(--font-base);
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+}
+
+.plan-info-section {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border: 1px solid var(--color-grey);
+}
+
+.plan-details {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.plan-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 1px solid var(--color-golden);
+}
+
+.review-item {
+  border: 1px solid var(--color-grey);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.reviewer-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-golden);
+  color: var(--color-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.reviewer-info {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.back-to-plans {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.review-loading,
+.review-empty-state {
+  text-align: center;
+  margin-top: 2rem;
+  color: var(--color-white);
+  font-family: var(--font-alt);
+}
+
+.review-empty-state p {
+  margin-bottom: 1.5rem;
+}
+
+.eligibility-message {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  font-family: var(--font-alt);
+}
+
+.eligibility-message.eligible {
+  border: 1px solid var(--color-golden);
+  color: var(--color-golden);
+}
+
+.eligibility-message.ineligible {
+  border: 1px solid var(--color-crimson);
+  color: var(--color-crimson);
+}
+
+.plan-picker-section {
+  margin: 1.5rem 0;
+}
+
+.plan-picker-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.plan-picker-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: transparent;
+  border: 1px solid var(--color-grey);
+  cursor: pointer;
+  color: var(--color-white);
+  font-family: var(--font-alt);
+  min-width: 100px;
+}
+
+.plan-picker-card.selected {
+  border-color: var(--color-golden);
+  box-shadow: 0 0 0 1px var(--color-golden);
+}
+
+.plan-picker-image {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border: 1px solid var(--color-golden);
+}
+
+.plan-picker-name {
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.review-text-section textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.submit-review-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 650px) {
+  .review-container {
+    padding: 2rem 1rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+}

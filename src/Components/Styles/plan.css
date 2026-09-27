@@ -1,107 +1,243 @@
-.plansCard{
-    margin: 50px 0;
-}
-.planDetails{
-    width: 100%;
-    grid-template-columns: repeat(3, 1fr);
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    
-}
-.pCard{
-    height: 400px;
-    width: 280px;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #6e6e6e;
-    transition: 0.3s;
-    border: 1px solid #6e6e6e;
-    margin: 55px 0;
-}
-.pCard1{
-    height: 30%;
-    width: 90%;
-    margin: 0 10px;
-    /* background-color: hotpink; */
-    border-bottom: 1px solid #6e6e6e;
-}
-.pCard2{
-    height: 35%;
-    width: 90%;
-    margin: 0 10px;
-    padding: 20px 0;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-direction: column;
-    border-bottom: 1px solid #6e6e6e;
-    /* background-color: gray; */
-}
-.pCard .btn{
-    position: relative;
-    top: 20px;
-    margin: 0;
-}
-.btn a{
-    text-decoration: none;
-    color: aliceblue;
-    
-}
-.img{
-    max-width: 100%;
-    max-height: 100%;
-}
-.ppoints{
-    height: 15%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-}
-.costpoint{
-    height: 24%;
-    width: 100%;
-    margin: 0;
-    font-size: 16px;
-    margin-left: 15px;
-}
-.point{
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    font-size: 16px;
-    margin-left: 15px;
-}
-.priceBox{
-    height: 70%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-.price{
-    height: 100%;
-    width: 60%;
-    font-size: 46px;
-    color:#F7115F;
-    display: flex;
-    align-items: flex-end;
-}
-.duration{
-    height: 90%;
-    width: 30%;
-    display: flex;
-    align-items: flex-end;
+.app__specialMenu {
+  flex-direction: column;
+  background: var(--color-black);
 }
 
-@media only screen and (max-width: 850px) {
-    .planDetails{
-        flex-direction: column;
-    }
-    .pCard{
-        margin: 25px;
-    }
-    
+.app__specialMenu-title {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.app__plans-play-link {
+  display: inline-block;
+  margin-top: 1rem;
+  font-family: var(--font-alt);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-black);
+  background: var(--color-golden);
+  border: 1px solid var(--color-golden);
+  padding: 0.75rem 1.4rem;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.app__plans-play-link:hover {
+  background: transparent;
+  color: var(--color-golden);
+}
+
+.app__plans-photo-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 1.5rem;
+}
+
+.app__plans-photo-strip-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid rgba(220, 202, 135, 0.45);
+  display: block;
+}
+
+.app__plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem 0;
+}
+
+.app__plan-card {
+  border: 1px solid var(--color-golden);
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.app__plan-name {
+  color: var(--color-golden);
+  font-size: 28px;
+}
+
+.app__plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.app__plan-amount {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.app__plan-sub {
+  color: var(--color-grey);
+}
+
+.app__plan-features {
+  width: 100%;
+  text-align: left;
+  margin: 1rem 0;
+}
+
+.app__plan-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.app__plan-feature img {
+  width: 20px;
+  height: 20px;
+}
+
+.app__plans-placeholder {
+  max-width: 400px;
+  margin-top: 2rem;
+}
+
+/* Tasting cards — photo forward */
+.tasting-plans__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.tasting-card {
+  border: 1px solid rgba(220, 202, 135, 0.45);
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: border-color 0.2s ease, transform 0.25s ease;
+}
+
+.tasting-card:hover {
+  border-color: var(--color-golden);
+  transform: translateY(-4px);
+}
+
+.tasting-card__media {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.tasting-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.tasting-card:hover .tasting-card__media img {
+  transform: scale(1.05);
+}
+
+.tasting-card__body {
+  padding: 1.15rem 1.2rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  flex: 1;
+}
+
+.tasting-card__name {
+  font-family: var(--font-base);
+  font-size: 1.6rem;
+  color: var(--color-white);
+  margin: 0;
+}
+
+.tasting-card__price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.tasting-card__amount {
+  font-family: var(--font-base);
+  font-size: 2rem;
+  color: var(--color-golden);
+}
+
+.tasting-card__per {
+  font-family: var(--font-alt);
+  font-size: 0.85rem;
+  color: var(--color-grey);
+}
+
+.tasting-card__sub {
+  font-family: var(--font-alt);
+  font-size: 0.85rem;
+  color: var(--color-grey);
+  margin: 0;
+}
+
+.tasting-card__features {
+  list-style: none;
+  margin: 0.5rem 0 1rem;
+  padding: 0;
+}
+
+.tasting-card__features li {
+  font-family: var(--font-alt);
+  font-size: 0.88rem;
+  color: var(--color-grey);
+  padding: 0.35rem 0 0.35rem 1.1rem;
+  position: relative;
+  border-bottom: 1px solid rgba(220, 202, 135, 0.15);
+}
+
+.tasting-card__features li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.75rem;
+  width: 0.45rem;
+  height: 0.45rem;
+  border: 1px solid var(--color-golden);
+  border-radius: 50%;
+}
+
+.tasting-card__cta {
+  margin-top: auto;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.7rem 1rem;
+  background: var(--color-golden);
+  color: var(--color-black);
+  font-family: var(--font-alt);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--color-golden);
+}
+
+.tasting-card__cta:hover {
+  background: transparent;
+  color: var(--color-golden);
+}
+
+@media screen and (max-width: 900px) {
+  .tasting-plans__grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+  }
 }

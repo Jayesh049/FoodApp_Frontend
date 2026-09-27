@@ -13,10 +13,18 @@
 
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+
+# never commit nested backend clone or archives
+/Backend/
+*.rar
+*.zip
+Backend.rar
+src.rar
 
 npm-debug.log*
 yarn-debug.log*

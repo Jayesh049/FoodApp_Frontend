@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+# FoodApp Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Meal-plan delivery web app** — browse plans, sign up, book, pay with Razorpay, and manage your profile.
 
-## Available Scripts
+| | |
+|---|---|
+| **This repo (UI)** | [FoodApp_Frontend](https://github.com/Jayesh049/FoodApp_Frontend) |
+| **Backend (API)** | [FoodApp_Backend](https://github.com/Jayesh049/FoodApp_Backend) |
+| **Architecture (developers)** | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## How it works (plain English)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. You open the site and explore **meal plans** (like a restaurant menu of weekly packages).
+2. You **create an account** or log in; the site remembers you safely via the API.
+3. You **book a plan**; payment goes through **Razorpay** (a real payment gateway).
+4. Your **profile** shows bookings; admins can manage plans/sections when signed in as admin.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```mermaid
+flowchart LR
+  User[User] --> FE[React_Frontend]
+  FE --> API[Express_API]
+  API --> DB[(MongoDB_Atlas)]
+  API --> Pay[Razorpay]
+  API --> Mail[Nodemailer]
+```
 
-### `npm test`
+Recruiters: this README is enough to understand the product.  
+Engineers: see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for routes, auth guards, and folder layout.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## What you can do in the app
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Home, plans catalog, and plan detail pages
+- Signup / login / email verify / forgot & reset password
+- Cart-style booking flow and payment success handling
+- Profile page for the signed-in user
+- Reviews and contact
+- Admin areas (plans, sections, RAG tooling) behind admin checks
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Stack
 
-### `npm run eject`
+| Layer | Choice |
+|-------|--------|
+| UI | React 18 |
+| Build | Vite (+ TypeScript checks in build) |
+| Routing | React Router v5 |
+| HTTP | Axios (credentials / cookies with API) |
+| Auth UX | `AuthProvider`, `RequireAuth`, `RequireAdmin` |
+| Payments | Razorpay checkout (via backend keys) |
+| E2E | Playwright |
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+---
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Quick start (local)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```powershell
+cd foodAppFrontend
+npm install
+npm start
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+App typically runs on **http://localhost:3001** (or the Vite default shown in the terminal).  
+Run the [Backend](https://github.com/Jayesh049/FoodApp_Backend) on port **3000** and point the frontend proxy / API base URL at it.
 
-## Learn More
+```powershell
+npm run build
+npm run test:e2e
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Sibling backend
 
-### Code Splitting
+API source: **[Jayesh049/FoodApp_Backend](https://github.com/Jayesh049/FoodApp_Backend)**  
+Copy Backend `.env.example`, set `FRONTEND_URL` to this app’s origin, then `npm start` in Backend.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## Portfolio note
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Built to demonstrate full-stack product thinking: real auth flows, payments, and a clear UI↔API split. Strong for mid/senior portfolio review; elite compensation roles also weigh interviews, security depth, and production experience beyond a single demo.
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## License
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+See repository / `package.json`.

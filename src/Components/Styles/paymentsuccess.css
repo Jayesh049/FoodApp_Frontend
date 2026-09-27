@@ -1,18 +1,33 @@
+.payment-success-page {
+  min-height: calc(100vh - 80px);
+  background: var(--color-black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 2rem;
+}
 
-  .card{
-    margin-left: 200px;
-    margin-top: 100px;
-    background: white;
-    padding: 60px;
-    padding-top: 100px;
-    padding-left: 400px;
-    padding-right: 400px;
-    border-radius: 4px;
-    box-shadow: 0 2px 3px #C8D0D8;
-    display: inline-block;
-    margin: 0 auto;
-  }
-  .center{
-    text-align: center;
-  }
-  
+.card {
+  background: var(--color-black);
+  border: 1px solid var(--color-golden);
+  padding: 4rem 3rem;
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+}
+
+.card h1,
+.card h2 {
+  font-family: var(--font-base);
+  color: var(--color-golden);
+}
+
+.card p {
+  font-family: var(--font-alt);
+  color: var(--color-grey);
+  margin: 1rem 0;
+}
+
+.center {
+  text-align: center;
+}

@@ -1,44 +1,229 @@
-nav {
-    position: fixed;
-    width: 100%;
-    transition: 1s;
-    z-index: 2;
-    background-color: rgba(26, 25, 25, 0.699)
+.app__navbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-black);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-.activeNavBar {
-    background: rgba(0, 0, 0, 0.952);
-    transition: 1s;
+.app__navbar-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-nav ul {
-    list-style: none;
-    overflow: hidden;
-    color: #fff;
-    padding: 0;
-    text-align: right;
-    margin: 0;
-    background: rgba(0, 0, 0, 0);
-    transition: 1s;
+.app__brand-logo {
+  font-family: var(--font-base);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-white);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-nav.black ul {
-    background: #000;
+.app__brand-logo:hover {
+  color: var(--color-golden);
 }
 
-nav ul li {
-    display: inline-block;
-    padding: 20px 1.5rem;
+.app__navbar-links {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
 }
 
-nav ul li:hover {
-    background: rgba(0, 0, 0, 0.322);
-    cursor: pointer;
+.app__navbar-links li {
+  margin: 0 1rem;
+  cursor: pointer;
 }
 
-nav ul li a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 20px;
+.app__navbar-links li:hover {
+  color: var(--color-grey);
 }
 
+.app__navbar-login {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.app__navbar-login a,
+.navbar-link-btn {
+  margin: 0 1rem;
+  text-decoration: none;
+  transition: 0.5s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-alt);
+  color: var(--color-white);
+  font-size: 16px;
+}
+
+.app__navbar-login a:hover,
+.navbar-link-btn:hover {
+  border-bottom: 1px solid var(--color-golden);
+}
+
+.app__navbar-login > div:not(.navbar-admin-menu) {
+  width: 1px;
+  height: 30px;
+  background-color: var(--color-grey);
+}
+
+.navbar-admin-menu {
+  position: relative;
+  margin: 0 0.5rem;
+}
+
+.navbar-admin-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 160px;
+  background: #0c0c0c;
+  border: 1px solid var(--color-golden);
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+  padding: 0.35rem 0;
+}
+
+.navbar-admin-dropdown a {
+  margin: 0 !important;
+  padding: 0.65rem 1rem;
+  color: var(--color-golden) !important;
+  font-size: 0.85rem;
+  border-bottom: none !important;
+}
+
+.navbar-admin-dropdown a:hover {
+  background: rgba(220, 202, 135, 0.12);
+  border-bottom: none !important;
+}
+
+.navbar-book-btn {
+  display: inline-block;
+  margin: 0 0.5rem !important;
+  padding: 0.45rem 1rem;
+  background: var(--color-golden);
+  color: var(--color-black) !important;
+  font-family: var(--font-alt);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--color-golden);
+}
+
+.navbar-book-btn:hover {
+  background: transparent;
+  color: var(--color-golden) !important;
+  border-bottom: 1px solid var(--color-golden) !important;
+}
+
+.navbar-admin-btn {
+  display: inline-block;
+  padding: 0.35rem 1rem;
+  border: 1px solid var(--color-golden);
+  color: var(--color-golden) !important;
+  font-family: var(--font-base);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: 0.3s ease;
+  background: transparent;
+  cursor: pointer;
+}
+
+.navbar-admin-btn:hover {
+  background: var(--color-golden);
+  color: var(--color-black) !important;
+  border-bottom: none !important;
+}
+
+.app__navbar-smallscreen {
+  display: none;
+}
+
+.app__navbar-smallscreen_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--color-black);
+  transition: 0.5s ease;
+  flex-direction: column;
+  z-index: 5;
+}
+
+.app__navbar-smallscreen_links {
+  list-style: none;
+}
+
+.app__navbar-smallscreen_links li {
+  margin: 2rem;
+  cursor: pointer;
+  color: var(--color-golden);
+  font-size: 2rem;
+  text-align: center;
+  font-family: var(--font-base);
+}
+
+.app__navbar-smallscreen_links li:hover {
+  color: var(--color-white);
+}
+
+.app__navbar-smallscreen_links .navbar-link-btn {
+  color: var(--color-golden);
+  font-size: 2rem;
+  font-family: var(--font-base);
+}
+
+.app__navbar-smallscreen_overlay .overlay__close {
+  font-size: 27px;
+  color: var(--color-golden);
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+@media screen and (max-width: 2000px) {
+  .app__brand-logo {
+    font-size: 2.25rem;
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .app__navbar-links {
+    display: none;
+  }
+
+  .app__navbar-smallscreen {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .app__navbar {
+    padding: 1rem;
+  }
+
+  .app__navbar-login {
+    display: none;
+  }
+
+  .app__brand-logo {
+    font-size: 1.5rem;
+  }
+}

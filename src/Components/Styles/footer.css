@@ -1,45 +1,128 @@
-.footerImg{
-    height: 15vh;
-    background-image: url('../Images/foodiesfeed.com_pizza-ready-for-baking.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
+.app__footer {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  background: var(--color-black);
+  padding-top: 0;
+  overflow: hidden;
 }
-footer{
-    height: 15vh;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.507), rgba(0, 0, 0, 0.849))
+
+.footer-ambient-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(220, 202, 135, 0.18), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 10% 80%, rgba(220, 202, 135, 0.06), transparent 50%),
+    radial-gradient(ellipse 50% 40% at 90% 70%, rgba(255, 255, 255, 0.04), transparent 50%),
+    linear-gradient(180deg, #0a0a0a 0%, #0c0c0c 40%, #111 100%);
 }
-.footer-p{
-    width: 100%;
-    display: flex;
-    justify-content: center;
+
+.footer-ambient-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+.app__footer-links,
+.footer__copyright,
+.app__footer .app__footer-overlay {
+  position: relative;
+  z-index: 1;
+}
+
+.app__footer-links {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5rem;
+  padding: 0 2rem;
+}
+
+.app__footer-links_contact,
+.app__footer-links_logo,
+.app__footer-links_work {
+  flex: 1;
+  margin: 1rem;
+  text-align: center;
+}
+
+.app__brand-logo--footer {
+  display: block;
+  font-family: var(--font-base);
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-white);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.app__footer-links_work p:nth-child(2n + 1) {
+  margin-bottom: 1rem;
+}
+
+.app__footer-links_icons {
+  margin-top: 0.5rem;
+}
+
+.app__footer-links_icons svg {
+  color: var(--color-white);
+  margin: 0.5rem;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.app__footer-links_icons svg:hover {
+  color: var(--color-golden);
+}
+
+.app__footer-headtext {
+  font-family: var(--font-base);
+  color: var(--color-white);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: capitalize;
+  font-size: 32px;
+  line-height: 41.6px;
+  margin-bottom: 1rem;
+}
+
+.footer__copyright {
+  margin-top: 3rem;
+}
+
+@media screen and (max-width: 1150px) {
+  .app__footer-links {
     align-items: center;
-    color: whitesmoke;
-    margin-bottom: 20px;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .app__footer-links_contact,
+  .app__footer-links_logo,
+  .app__footer-links_work {
+    margin: 2rem 0;
+    width: 100%;
+  }
 }
-.footer-parent{
-    height: 70%;
-    display: flex;
+
+@media screen and (max-width: 650px) {
+  .app__footer {
+    padding: 0 0 2rem 0;
+  }
 }
-.footer-text {
-    display: flex;
-    width: 70%;
-    margin-top: 50px;
-    padding-right: 6%;
-}
-.text-value a, .icon-footer {
-    font-size: 1.5rem;
-    color: rgb(243, 242, 242);
-    text-decoration: none;
-}
-li {
-    list-style: none;
-}
-.text-value {
-    padding-right: 6%;
-}
-@media only screen and (max-width: 850px) {
-    .text-value a{
-        font-size: 17px;
-    }
+
+@media screen and (max-width: 350px) {
+  .app__brand-logo--footer {
+    font-size: 1.75rem;
+  }
 }
