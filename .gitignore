@@ -25,6 +25,11 @@
 *.zip
 Backend.rar
 src.rar
+/src/Genrich_restaurant-main/
+/e2e-screenshots/
+/test-results/
+savorly-threejs-visuals.html
+/threejs/
 
 npm-debug.log*
 yarn-debug.log*
