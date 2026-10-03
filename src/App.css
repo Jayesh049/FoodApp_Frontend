@@ -9,11 +9,18 @@
 }
 
 .app__bg {
-  background: url('./assets/genrich/bg.png');
+  background: url('./assets/genrich/bg.jpg');
   background-position: center;
   background-size: cover;
   background-repeat: repeat;
-  background-attachment: fixed;
+}
+
+.route-fallback {
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-golden, #dcca87);
 }
 
 .app__wrapper {

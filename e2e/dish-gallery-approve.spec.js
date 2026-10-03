@@ -16,7 +16,6 @@
 const { test, expect } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
 
 const SLUG = process.env.DISH_SLUG || 'paneer-butter-masala';
 const UPLOADS =
@@ -24,32 +23,6 @@ const UPLOADS =
   path.resolve(__dirname, '../../Backend/uploads');
 const DIR = path.join(UPLOADS, 'dishes', SLUG);
 const SHOTS = ['01', '02', '03', '04', '05'];
-
-function dHashFromRgba(data, w, h) {
-  // 8x8 average hash from RGBA Uint8ClampedArray
-  const size = 8;
-  const blockW = Math.max(1, Math.floor(w / size));
-  const blockH = Math.max(1, Math.floor(h / size));
-  const cells = [];
-  for (let by = 0; by < size; by += 1) {
-    for (let bx = 0; bx < size; bx += 1) {
-      let sum = 0;
-      let n = 0;
-      const x0 = bx * blockW;
-      const y0 = by * blockH;
-      for (let y = y0; y < Math.min(h, y0 + blockH); y += 1) {
-        for (let x = x0; x < Math.min(w, x0 + blockW); x += 1) {
-          const i = (y * w + x) * 4;
-          sum += 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
-          n += 1;
-        }
-      }
-      cells.push(n ? sum / n : 0);
-    }
-  }
-  const avg = cells.reduce((a, b) => a + b, 0) / cells.length;
-  return cells.map((v) => (v >= avg ? '1' : '0')).join('');
-}
 
 function hamming(a, b) {
   let d = 0;
@@ -93,12 +66,16 @@ test.describe(`Dish gallery approve: ${SLUG}`, () => {
         });
         const w = img.naturalWidth;
         const h = img.naturalHeight;
+        const maxSide = 256;
+        const scale = Math.min(1, maxSide / Math.max(w, h));
+        const sw = Math.max(1, Math.floor(w * scale));
+        const sh = Math.max(1, Math.floor(h * scale));
         const canvas = document.createElement('canvas');
-        canvas.width = w;
-        canvas.height = h;
+        canvas.width = sw;
+        canvas.height = sh;
         const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        const { data } = ctx.getImageData(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, sw, sh);
+        const { data } = ctx.getImageData(0, 0, sw, sh);
         let sum = 0;
         let sumSq = 0;
         const n = data.length / 4;
@@ -109,11 +86,10 @@ test.describe(`Dish gallery approve: ${SLUG}`, () => {
         }
         const mean = sum / n;
         const variance = sumSq / n - mean * mean;
-        // center crop variance
-        const cw = Math.floor(w * 0.5);
-        const ch = Math.floor(h * 0.5);
-        const cx = Math.floor(w * 0.25);
-        const cy = Math.floor(h * 0.25);
+        const cw = Math.floor(sw * 0.5);
+        const ch = Math.floor(sh * 0.5);
+        const cx = Math.floor(sw * 0.25);
+        const cy = Math.floor(sh * 0.25);
         const center = ctx.getImageData(cx, cy, cw, ch).data;
         let cSum = 0;
         let cSumSq = 0;
@@ -125,7 +101,29 @@ test.describe(`Dish gallery approve: ${SLUG}`, () => {
         }
         const cMean = cSum / cn;
         const cVar = cSumSq / cn - cMean * cMean;
-        return { w, h, mean, variance, cVar, rgba: Array.from(data) };
+        const size = 8;
+        const blockW = Math.max(1, Math.floor(sw / size));
+        const blockH = Math.max(1, Math.floor(sh / size));
+        const cells = [];
+        for (let by = 0; by < size; by += 1) {
+          for (let bx = 0; bx < size; bx += 1) {
+            let cellSum = 0;
+            let cellN = 0;
+            const x0 = bx * blockW;
+            const y0 = by * blockH;
+            for (let y = y0; y < Math.min(sh, y0 + blockH); y += 1) {
+              for (let x = x0; x < Math.min(sw, x0 + blockW); x += 1) {
+                const i = (y * sw + x) * 4;
+                cellSum += 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+                cellN += 1;
+              }
+            }
+            cells.push(cellN ? cellSum / cellN : 0);
+          }
+        }
+        const avg = cells.reduce((a, b) => a + b, 0) / cells.length;
+        const hash = cells.map((v) => (v >= avg ? '1' : '0')).join('');
+        return { w, h, mean, variance, cVar, hash };
       }, dataUrl);
 
       expect(stats.w, `${shot} width`).toBeGreaterThanOrEqual(512);
@@ -135,12 +133,7 @@ test.describe(`Dish gallery approve: ${SLUG}`, () => {
       expect(stats.variance, `${shot} flat image`).toBeGreaterThan(80);
       expect(stats.cVar, `${shot} flat center`).toBeGreaterThan(40);
 
-      const hash = dHashFromRgba(
-        Uint8ClampedArray.from(stats.rgba),
-        stats.w,
-        stats.h
-      );
-      hashes.push(hash);
+      hashes.push(stats.hash);
       metas.push({
         shot,
         w: stats.w,

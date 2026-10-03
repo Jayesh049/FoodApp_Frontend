@@ -41,20 +41,10 @@ test.describe('Authenticated admin journey', () => {
     await page.locator('button.loginBtn').first().click();
     await page.waitForTimeout(2500);
 
-    const token = await page.evaluate(() => {
-      const match = document.cookie.match(/(?:^|; )jwt=([^;]*)/);
-      return match ? decodeURIComponent(match[1]) : localStorage.getItem('token');
-    });
-
-    // js-cookie stores jwt; AuthProvider sets Cookies.set('jwt', res.data.token)
-    const cookieJwt = await page.evaluate(() => {
-      const raw = document.cookie.split(';').map((c) => c.trim());
-      const hit = raw.find((c) => c.startsWith('jwt='));
-      return hit ? decodeURIComponent(hit.slice(4)) : '';
-    });
-
-    const bearer = cookieJwt || token || '';
-    expect(bearer.length).toBeGreaterThan(10);
+    const cookies = await page.context().cookies();
+    const jwt = cookies.find((c) => c.name === 'JWT');
+    const csrf = cookies.find((c) => c.name === 'csrf');
+    expect(jwt && jwt.value.length).toBeGreaterThan(10);
 
     const plansRes = await request.get('http://localhost:3000/api/v1/plan/');
     const plansJson = await plansRes.json();
@@ -64,12 +54,12 @@ test.describe('Authenticated admin journey', () => {
 
     const bookingRes = await request.post('http://localhost:3000/api/v1/booking/', {
       headers: {
-        Authorization: bearer.startsWith('Bearer ') ? bearer : `Bearer ${bearer}`,
+        Cookie: `JWT=${jwt.value}; csrf=${csrf ? csrf.value : ''}`,
+        'X-CSRF-Token': csrf ? csrf.value : '',
         'Content-Type': 'application/json',
       },
       data: {
-        price: plan.price || 99,
-        cartItems: [{ _id: plan._id, price: plan.price, quantity: 1 }],
+        cartItems: [{ _id: plan._id, quantity: 1 }],
       },
     });
 

@@ -1,3 +1,7 @@
+import './utils/apiAuth';
+import { initClientSentry } from './utils/sentry';
+
+initClientSentry();
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';

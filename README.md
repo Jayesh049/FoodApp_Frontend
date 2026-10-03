@@ -1,6 +1,25 @@
 # FoodApp Frontend
 
-**Meal-plan delivery web app** — browse plans, sign up, book, pay with Razorpay, and manage your profile.
+[![CI](https://github.com/Jayesh049/FoodApp_Frontend/actions/workflows/ci.yml/badge.svg)](https://github.com/Jayesh049/FoodApp_Frontend/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+Vegetarian meal plans you can open and order. [Live app](https://foodapp-frontend-z1zg.onrender.com) · [Built vs template](docs/BUILT_VS_TEMPLATE.md)
+
+![FoodApp homepage: plated vegetarian kitchen](screenshots/live-home.png)
+
+Checkout ignores the total sent by the browser and charges the stored plan price. Payment confirm is once, for the owner of that order. The session cookie is httpOnly, and logout kills it.
+
+![Paneer Tikka plan on the live homepage, Rs 283 per month](screenshots/live-plan.png)
+
+Live API: [https://foodapp-backend-joksepha.onrender.com/health](https://foodapp-backend-joksepha.onrender.com/health)
+
+## Engineering decisions
+
+- **Server-side pricing** — the UI never sends a trusted total; the API recomputes from the plan.
+- **httpOnly cookie + CSRF** — no JWT in `localStorage`; mutating calls send the CSRF header.
+- **Webhook + reconcile (API)** — payment truth lives on the server after signature verify.
+- **RAG fallback** — suggestions stay usable when the model is down (name search).
+- **Lazy routes** — each page loads its own chunk; nav stays mounted.
 
 | | |
 |---|---|
@@ -48,7 +67,7 @@ Engineers: see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for routes, auth gua
 |-------|--------|
 | UI | React 18 |
 | Build | Vite (+ TypeScript checks in build) |
-| Routing | React Router v5 |
+| Routing | React Router v6 |
 | HTTP | Axios (credentials / cookies with API) |
 | Auth UX | `AuthProvider`, `RequireAuth`, `RequireAdmin` |
 | Payments | Razorpay checkout (via backend keys) |
@@ -89,4 +108,4 @@ Built to demonstrate full-stack product thinking: real auth flows, payments, and
 
 ## License
 
-See repository / `package.json`.
+[MIT](LICENSE). GitHub sidebar fields: [docs/GITHUB_PRESENTATION.md](docs/GITHUB_PRESENTATION.md).

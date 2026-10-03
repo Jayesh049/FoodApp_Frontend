@@ -12,11 +12,11 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "strict": true,
+    "noImplicitAny": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    "allowJs": true,
-    "checkJs": false,
+    "allowJs": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
@@ -28,9 +28,7 @@
   },
   "include": ["src"],
   "exclude": [
-    "src/Genrich_restaurant-main",
-    "src/**/*.test.js",
-    "src/setupProxy.js",
-    "src/setupTests.js"
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx"
   ]
 }

@@ -1,20 +1,17 @@
-import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from 'axios';
-import Cookies from 'js-cookie';
+import axios, { type AxiosInstance } from 'axios';
 import { API_ORIGIN, API_V1 } from './apiBase';
+import { getCsrfToken } from './apiAuth';
 
-/** Shared axios instance for FoodApp API calls. */
+/** Shared axios instance for FoodApp API calls. Session is an httpOnly cookie. */
 const apiClient: AxiosInstance = axios.create({
   baseURL: API_V1,
   timeout: 30000,
   withCredentials: true,
 });
 
-apiClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const token = Cookies.get('jwt');
-  if (token) {
-    const authHeader = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
-    config.headers.set('Authorization', authHeader);
-  }
+apiClient.interceptors.request.use((config) => {
+  const token = getCsrfToken();
+  if (token) config.headers.set('X-CSRF-Token', token);
   return config;
 });
 

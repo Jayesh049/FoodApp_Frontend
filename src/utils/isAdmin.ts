@@ -1,9 +1,3 @@
-export type AuthUser = {
-  role?: string;
-  email?: string;
-  [key: string]: unknown;
-};
-
-export function isAdmin(user: AuthUser | null | undefined): boolean {
-  return Boolean(user && user.role === 'admin');
+export function isAdmin(user: { role?: string } | null | undefined): boolean {
+  return Boolean(user && user.role === "admin");
 }
